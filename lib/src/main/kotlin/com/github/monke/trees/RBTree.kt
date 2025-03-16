@@ -12,6 +12,6 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>>() {
     }
 
     override operator fun iterator(): RBTNode<K, V> {
-        TODO("Not implemented yet")
+        TODO("Not yet implemented")
     }
 }

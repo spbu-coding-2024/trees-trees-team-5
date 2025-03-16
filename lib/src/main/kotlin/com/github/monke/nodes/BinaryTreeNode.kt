@@ -4,6 +4,6 @@ public abstract class BinaryTreeNode<K : Comparable<K>, V, N : BinaryTreeNode<K,
     val key: K,
     val value: V,
 ) {
-    var leftChild: BinaryTreeNode<K, V, N>? = null
-    var rightChild: BinaryTreeNode<K, V, N>? = null
+    var leftChild: N? = null
+    var rightChild: N? = null
 }

@@ -12,6 +12,6 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
     }
 
     override operator fun iterator(): AVLNode<K, V> {
-        TODO("Not implemented yet")
+        TODO("Not yet implemented")
     }
 }
