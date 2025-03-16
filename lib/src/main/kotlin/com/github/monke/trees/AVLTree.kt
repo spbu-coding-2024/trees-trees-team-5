@@ -2,8 +2,9 @@ package com.github.monke.trees
 
 import com.github.monke.nodes.AVLNode
 
-public class AVLTree<K : Comparable<K>, V, N : AVLNode<K, V>> : BinaryTree<K, V, N>() {
-    override fun search(key: K): N? {
+public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K,V>>() {
+
+    override fun search(key: K): AVLNode<K, V>? {
         TODO("Not yet implemented")
     }
 
@@ -15,7 +16,7 @@ public class AVLTree<K : Comparable<K>, V, N : AVLNode<K, V>> : BinaryTree<K, V,
         TODO("Not yet implemented")
     }
 
-    override operator fun iterator(): N {
+    override operator fun iterator(): AVLNode<K, V> {
         TODO("Not implemented yet")
     }
 }

@@ -3,13 +3,17 @@
  */
 package com.github.monke;
 
+import com.github.monke.nodes.BSTNode
+import com.github.monke.nodes.BinaryTreeNode
+import com.github.monke.trees.BSTree
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 
 class LibraryTest {
     @Test
     fun someLibraryMethodReturnsTrue() {
-        val classUnderTest = Library()
+        val classUnderTest =    Library()
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'")
     }
+
 }
