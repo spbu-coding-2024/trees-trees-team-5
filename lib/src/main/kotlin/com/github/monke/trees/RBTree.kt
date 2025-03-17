@@ -2,7 +2,7 @@ package com.github.monke.trees
 
 import com.github.monke.nodes.RBTNode
 
-class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K,V>>() {
+class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>>() {
     override fun search(key: K): RBTNode<K, V>? {
         TODO("Not yet implemented")
     }
