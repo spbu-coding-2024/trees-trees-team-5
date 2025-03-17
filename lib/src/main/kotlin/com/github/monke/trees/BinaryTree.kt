@@ -1,6 +1,5 @@
 package com.github.monke.trees
 
-import com.github.monke.nodes.BSTNode
 import com.github.monke.nodes.BinaryTreeNode
 import com.github.monke.trees.treeInterfaces.Search
 import com.github.monke.trees.treeInterfaces.Insert
