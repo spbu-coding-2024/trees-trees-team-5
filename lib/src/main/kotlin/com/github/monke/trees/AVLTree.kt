@@ -33,10 +33,6 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
         TODO("Not yet implemented")
     }
 
-    override operator fun iterator(): AVLNode<K, V> {
-        TODO("Not yet implemented")
-    }
-
     private fun searchPath(key: K): Stack<AVLNode<K, V>>? {
         var currentNode: AVLNode<K, V>? = rootNode
         val path: Stack<AVLNode<K, V>> = Stack()
@@ -63,11 +59,4 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
         val leftHeight: Int = this.leftChild?.height ?: 0
         return rightHeight - leftHeight
     }
-}
-
-fun main() {
-    val tree: AVLTree<Int, Int> = AVLTree()
-    tree.insert(1, 2)
-    tree.insert(2, 3)
-    tree.insert(0, 2)
 }
