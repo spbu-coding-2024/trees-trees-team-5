@@ -5,7 +5,9 @@ import com.github.monke.trees.treeInterfaces.Search
 import com.github.monke.trees.treeInterfaces.Insert
 import com.github.monke.trees.treeInterfaces.Delete
 import com.github.monke.trees.treeInterfaces.NodeArithmetic
-import java.util.*
+import java.util.Queue
+import java.util.LinkedList
+
 import kotlin.NoSuchElementException
 
 abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> :
@@ -18,7 +20,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> :
     override fun search(key: K): N? {
         var currentNode = rootNode
         while (currentNode != null) {
-            when{
+            when {
                 currentNode.key == key -> return currentNode
                 currentNode.key < key -> currentNode = currentNode?.rightChild
                 else -> currentNode = currentNode?.leftChild
@@ -27,9 +29,10 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> :
         return null
     }
 
-    operator fun iterator(): Iterator<Pair<K,V>>{
+    operator fun iterator(): Iterator<Pair<K, V>> {
         return BinaryTreeIterator()
     }
+
     operator fun get(key: K): V? {
         return this.search(key)?.value
     }
