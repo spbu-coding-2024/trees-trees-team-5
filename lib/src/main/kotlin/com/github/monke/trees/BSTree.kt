@@ -4,7 +4,6 @@ import com.github.monke.nodes.BSTNode
 
 
 public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
-
     override fun insert(key: K, value: V) {
         val node = BSTNode(key, value)
         if (rootNode == null) {
@@ -12,20 +11,20 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
             return
         }
 
-        var current_node = rootNode
-        var parent_node = rootNode
-        while (current_node != null) {
-            parent_node = current_node
-            if (node.key < current_node.key) {
-                current_node = current_node.leftChild
-            } else if (node.key > current_node.key) {
-                current_node = current_node.rightChild
+        var currentNode = rootNode
+        var parentNode = rootNode
+        while (currentNode != null) {
+            parentNode = currentNode
+            if (node.key < currentNode.key) {
+                currentNode = currentNode.leftChild
+            } else if (node.key > currentNode.key) {
+                currentNode = currentNode.rightChild
             }
         }
-        if (parent_node != null) {
+        if (parentNode != null) {
             when {
-                node.key > parent_node.key -> parent_node.rightChild = node
-                else -> parent_node.leftChild = node
+                node.key > parentNode.key -> parentNode.rightChild = node
+                else -> parentNode.leftChild = node
             }
         }
 
@@ -34,35 +33,35 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
 
     private fun getMaxSubTree(node: BSTNode<K, V>?): BSTNode<K, V>? {
         if (node == null) return null
-        var current_node = node
-        while (current_node?.rightChild != null) {
-            current_node = current_node.rightChild
+        var currentNode = node
+        while (currentNode?.rightChild != null) {
+            currentNode = currentNode.rightChild
         }
-        return current_node
+        return currentNode
     }
 
     private fun searchParentNode(node: BSTNode<K, V>?): BSTNode<K, V>? {
         if (node == null) return null
-        var parrent_node = rootNode
-        while (parrent_node != null) {
+        var parentNode = rootNode
+        while (parentNode != null) {
             when {
-                (node.key < parrent_node.key && node != parrent_node.leftChild) -> parrent_node = parrent_node.leftChild
-                (node.key > parrent_node.key && node != parrent_node.rightChild) -> parrent_node =
-                    parrent_node.rightChild
+                (node.key < parentNode.key && node != parentNode.leftChild) -> parentNode = parentNode.leftChild
+                (node.key > parentNode.key && node != parentNode.rightChild) -> parentNode =
+                    parentNode.rightChild
 
-                (node == parrent_node.leftChild || node == parrent_node.rightChild) -> return parrent_node
+                (node == parentNode.leftChild || node == parentNode.rightChild) -> return parentNode
             }
         }
         return null
     }
 
-    private fun setChild(parrent_node: BSTNode<K, V>?, node: BSTNode<K, V>?, new_node: BSTNode<K, V>?): Boolean {
-        if (parrent_node == null || node == null) {
+    private fun setChild(parentNode: BSTNode<K, V>?, node: BSTNode<K, V>?, newNode: BSTNode<K, V>?): Boolean {
+        if (parentNode == null || node == null) {
             return false
         }
         when {
-            parrent_node.rightChild == node -> parrent_node.rightChild = new_node
-            parrent_node.leftChild == node -> parrent_node.leftChild = new_node
+            parentNode.rightChild == node -> parentNode.rightChild = newNode
+            parentNode.leftChild == node -> parentNode.leftChild = newNode
             else -> return false
         }
         return true
@@ -73,45 +72,34 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
             return null
         }
 
-        var node = search(key)
+        val node = search(key)
 
-        if (node?.leftChild == null || node?.rightChild == null) {
-            val new_node = if (node?.leftChild == null) node?.rightChild else node?.leftChild
+        if (node?.leftChild == null || node.rightChild == null) {
+            val newNode = if (node?.leftChild == null) node?.rightChild else node.leftChild
             if (node != rootNode) {
-                val parrent_node = searchParentNode(node)
+                val parentNode = searchParentNode(node)
 
-                setChild(parrent_node, node, new_node)
+                setChild(parentNode, node, newNode)
 
             } else {
-                rootNode = new_node
+                rootNode = newNode
             }
             return node?.value
 
         } else {
-            val max_left_subtree_node = getMaxSubTree(node.leftChild) ?: return null
-            this.delete(max_left_subtree_node.key)
-            val new_node: BSTNode<K, V>? = BSTNode(max_left_subtree_node.key, max_left_subtree_node.value)
+            val maxLeftSubtreeNode = getMaxSubTree(node.leftChild) ?: return null
+            this.delete(maxLeftSubtreeNode.key)
+            val newNode: BSTNode<K, V> = BSTNode(maxLeftSubtreeNode.key, maxLeftSubtreeNode.value)
 
-            if (new_node != null) {
-                new_node.rightChild = node.rightChild
-                new_node.leftChild = node.leftChild
-                if (node == rootNode)
-                    rootNode = new_node
-                else {
-                    val parrent_node = searchParentNode(node)
-                    setChild(parrent_node, node, new_node)
-                }
-                return node.value
+            newNode.rightChild = node.rightChild
+            newNode.leftChild = node.leftChild
+            if (node == rootNode)
+                rootNode = newNode
+            else {
+                val parentNode = searchParentNode(node)
+                setChild(parentNode, node, newNode)
             }
-
+            return node.value
         }
-
-        return null
     }
 }
-
-
-
-
-
-

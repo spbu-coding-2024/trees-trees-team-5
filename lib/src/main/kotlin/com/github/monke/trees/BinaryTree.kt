@@ -20,10 +20,10 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> :
     override fun search(key: K): N? {
         var currentNode = rootNode
         while (currentNode != null) {
-            when {
+            currentNode = when {
                 currentNode.key == key -> return currentNode
-                currentNode.key < key -> currentNode = currentNode?.rightChild
-                else -> currentNode = currentNode?.leftChild
+                currentNode.key < key -> currentNode.rightChild
+                else -> currentNode.leftChild
             }
         }
         return null
@@ -37,7 +37,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> :
         return this.search(key)?.value
     }
 
-    private inner class BinaryTreeIterator() : Iterator<Pair<K, V>> {
+    private inner class BinaryTreeIterator : Iterator<Pair<K, V>> {
         private val queue: Queue<N> = LinkedList()
 
         init {
