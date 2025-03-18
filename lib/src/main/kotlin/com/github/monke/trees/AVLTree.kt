@@ -1,21 +1,21 @@
 package com.github.monke.trees
 
 import com.github.monke.nodes.AVLNode
-import java.util.Stack
+import java.util.*
 import kotlin.math.max
 
 public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
     override fun insert(key: K, value: V) {
-        val path: Stack<AVLNode<K, V>>? = searchPath(key)
+        val path: Stack<AVLNode<K, V>>? = rootNode?.searchPath(key)
 
-        if (path == null) {
-            throw IllegalArgumentException("Node with such key already exists")
+        val newNode: AVLNode<K, V> = AVLNode(key, value)
+        if (path.isNullOrEmpty()) {
+            rootNode = newNode
         } else {
-            val newNode: AVLNode<K, V> = AVLNode(key, value)
-            if (path.isEmpty()) {
-                rootNode = newNode
+            var parentNode: AVLNode<K, V> = path.peek()
+            if (parentNode.key == key) {
+                throw IllegalArgumentException("Node with such key already exists")
             } else {
-                var parentNode: AVLNode<K, V> = path.peek()
                 if (key < parentNode.key) {
                     parentNode.leftChild = newNode
                 } else if (key > parentNode.key) {
@@ -24,11 +24,12 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
 
                 while (path.size > 1) {
                     val currentNode: AVLNode<K, V> = path.pop()
+                    val newCurrentNode: AVLNode<K, V>? = currentNode.rebalanced()
                     parentNode = path.peek()
                     if (currentNode.key == parentNode.leftChild?.key) {
-                        parentNode.leftChild = currentNode.rebalanced()
+                        parentNode.leftChild = newCurrentNode
                     } else {
-                        parentNode.rightChild = currentNode.rebalanced()
+                        parentNode.rightChild = newCurrentNode
                     }
                 }
                 val currentNode: AVLNode<K, V> = path.pop()
@@ -38,19 +39,37 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
     }
 
     override fun delete(key: K): V? {
-        TODO("Not yet implemented")
+        val path: Stack<AVLNode<K, V>>? = rootNode?.searchPath(key)
+        if (path.isNullOrEmpty() || path.peek().key != key) {
+            throw IllegalArgumentException("Node with such key does not exist")
+        } else {
+            // deletion
+
+            while (path.size > 1) {
+                val currentNode: AVLNode<K, V> = path.pop()
+                val parentNode: AVLNode<K, V> = path.peek()
+                val newCurrentNode: AVLNode<K, V>? = currentNode.rebalanced()
+                if (currentNode.key == parentNode.leftChild?.key) {
+                    parentNode.leftChild = newCurrentNode
+                } else {
+                    parentNode.rightChild = newCurrentNode
+                }
+            }
+            val currentNode: AVLNode<K, V> = path.pop()
+            rootNode = currentNode.rebalanced()
+        }
     }
 
-    private fun searchPath(key: K): Stack<AVLNode<K, V>>? {
-        var currentNode: AVLNode<K, V>? = rootNode
+    private fun AVLNode<K, V>.searchPath(key: K): Stack<AVLNode<K, V>> {
         val path: Stack<AVLNode<K, V>> = Stack()
+        var currentNode: AVLNode<K, V>? = this
 
         while (currentNode != null) {
             path.push(currentNode)
             currentNode = when {
                 key < currentNode.key -> currentNode.leftChild
                 key > currentNode.key -> currentNode.rightChild
-                else -> return null
+                else -> null
             }
         }
 
