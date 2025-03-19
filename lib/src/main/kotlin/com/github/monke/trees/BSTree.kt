@@ -3,7 +3,7 @@ package com.github.monke.trees
 import com.github.monke.nodes.BSTNode
 
 
-public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
+public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTree<K, V>>() {
     override fun insert(key: K, value: V) {
         val node = BSTNode(key, value)
         if (rootNode == null) {

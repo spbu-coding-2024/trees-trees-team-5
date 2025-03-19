@@ -4,7 +4,7 @@ import com.github.monke.nodes.AVLNode
 import java.util.*
 import kotlin.math.max
 
-public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
+public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
     override fun insert(key: K, value: V) {
         val path: Stack<AVLNode<K, V>>? = rootNode?.searchPath(key)
 
@@ -58,6 +58,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
             val currentNode: AVLNode<K, V> = path.pop()
             rootNode = currentNode.rebalanced()
         }
+        return null
     }
 
     private fun AVLNode<K, V>.searchPath(key: K): Stack<AVLNode<K, V>> {
