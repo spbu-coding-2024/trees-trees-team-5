@@ -103,4 +103,10 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
             return node.value
         }
     }
+
+    fun copy(): BSTree<K, V> {
+        val copyTree = BSTree<K, V>()
+        copyTree.rootNode = rootNode?.copy()
+        return copyTree
+    }
 }

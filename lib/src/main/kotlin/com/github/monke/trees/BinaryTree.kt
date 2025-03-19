@@ -23,7 +23,6 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
             this.insert(key, value)
         }
     }
-
     override fun search(key: K): N? {
         var currentNode = rootNode
         while (currentNode != null) {
