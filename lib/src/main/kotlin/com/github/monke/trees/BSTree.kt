@@ -17,7 +17,7 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
 
             parentNode = currentNode
 
-            currentNode = when{
+            currentNode = when {
                 node.key < currentNode.key -> currentNode.leftChild
                 node.key > currentNode.key -> currentNode.rightChild
                 else -> throw IllegalArgumentException("Node with key ${node.key} is already exist.")
