@@ -14,21 +14,22 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
         var currentNode = rootNode
         var parentNode = rootNode
         while (currentNode != null) {
+
             parentNode = currentNode
-            if (node.key < currentNode.key) {
-                currentNode = currentNode.leftChild
-            } else if (node.key > currentNode.key) {
-                currentNode = currentNode.rightChild
+
+            currentNode = when{
+                node.key < currentNode.key -> currentNode.leftChild
+                node.key > currentNode.key -> currentNode.rightChild
+                else -> throw IllegalArgumentException("Node with key ${node.key} is already exist.")
             }
         }
+
         if (parentNode != null) {
             when {
                 node.key > parentNode.key -> parentNode.rightChild = node
                 else -> parentNode.leftChild = node
             }
         }
-
-
     }
 
     private fun getMaxSubTree(node: BSTNode<K, V>?): BSTNode<K, V>? {
@@ -103,3 +104,5 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>>() {
         }
     }
 }
+
+
