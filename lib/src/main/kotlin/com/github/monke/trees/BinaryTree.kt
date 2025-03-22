@@ -10,13 +10,19 @@ import java.util.LinkedList
 
 import kotlin.NoSuchElementException
 
-abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> :
+abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T : BinaryTree<K, V, N, T>> :
     Search<K, V, N>,
     Insert<K, V, N>,
     Delete<K, V, N>,
-    NodeArithmetic<K, V, N> {
-
+    NodeArithmetic<K, V, N, T> {
     protected var rootNode: N? = null
+
+    fun insert(tree: T) {
+        for (i in tree) {
+            val (key, value) = i
+            this.insert(key, value)
+        }
+    }
     override fun search(key: K): N? {
         var currentNode = rootNode
         while (currentNode != null) {
