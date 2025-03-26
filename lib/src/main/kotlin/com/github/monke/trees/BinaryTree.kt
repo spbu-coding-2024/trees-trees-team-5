@@ -13,7 +13,7 @@ import kotlin.NoSuchElementException
 abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T : BinaryTree<K, V, N, T>> :
     Search<K, V, N>,
     Insert<K, V, N>,
-    Delete<K, V, N>,
+    Delete<K, V, N, T>,
     NodeArithmetic<K, V, N, T> {
     protected var rootNode: N? = null
 
@@ -23,6 +23,8 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
             this.insert(key, value)
         }
     }
+
+
     override fun search(key: K): N? {
         var currentNode = rootNode
         while (currentNode != null) {
@@ -32,7 +34,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
                 else -> currentNode.leftChild
             }
         }
-        return null
+        throw NoSuchElementException("Node with key $key not found.")
     }
 
     operator fun iterator(): Iterator<Pair<K, V>> {

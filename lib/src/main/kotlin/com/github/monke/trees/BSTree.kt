@@ -73,10 +73,10 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
             return null
         }
 
-        val node = search(key)
+        val node = search(key) ?: throw NoSuchElementException("Node with key $key not found.")
 
-        if (node?.leftChild == null || node.rightChild == null) {
-            val newNode = if (node?.leftChild == null) node?.rightChild else node.leftChild
+        if (node.leftChild == null || node.rightChild == null) {
+            val newNode = if (node.leftChild == null) node.rightChild else node.leftChild
             if (node != rootNode) {
                 val parentNode = searchParentNode(node)
 
@@ -85,7 +85,7 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
             } else {
                 rootNode = newNode
             }
-            return node?.value
+            return node.value
 
         } else {
             val maxLeftSubtreeNode = getMaxSubTree(node.leftChild) ?: return null
@@ -102,6 +102,16 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
             }
             return node.value
         }
+    }
+
+    override fun plus(tree: BSTree<K, V>): BSTree<K, V> {
+        this.insert(tree)
+        return this
+    }
+
+    override fun minus(tree: BSTree<K, V>): BSTree<K, V> {
+        this.delete(tree)
+        return this
     }
 
     fun copy(): BSTree<K, V> {
