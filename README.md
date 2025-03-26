@@ -4,11 +4,7 @@
 
 <hr>
 
-## Features
-* <b>Simple code</b> - you can write clear and simple code for work with trees.
-
-## Example
-### Simple insert and search element
+## 🛠️ Quick Start
 ```kotlin
 import trees.BSTree
 
@@ -22,6 +18,10 @@ fun main(){
 }
 ```
 
+## 💡 Features
+* <b>Simple code</b> - you can write clear and simple code for work with trees.
+
+## 📃 Example
 ### Get value by key
 ```kotlin
 import trees.BSTree
