@@ -1,6 +1,8 @@
-# Monke - library for easy work with binary trees
+<p align="center"><img src="https://i.imgur.com/ZNsaOXf.jpeg" height="258" alt="Monke pic" /> </p>
+<h1 align="center">MONKE</h1>
+<p align="center">Library for kotlin that help you work with data by simple interface of Binary Tree.</p>
 
-<b>Monke</b> is library for kotlin that help you work with data by simple interface of Binary Tree.
+<hr>
 
 ## Features
 * <b>Simple code</b> - you can write clear and simple code for work with trees.
