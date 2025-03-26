@@ -34,7 +34,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
                 else -> currentNode.leftChild
             }
         }
-        throw NoSuchElementException("Node with key $key not found.")
+        return null
     }
 
     operator fun iterator(): Iterator<Pair<K, V>> {
