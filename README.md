@@ -68,6 +68,9 @@ fun main(){
 
 #### Minus
 ```kotlin
+import trees.BSTree
+
+fun main(){
     var tree1 = BSTree<Int, String>()
     tree1.insert(1,"Value 1")
     tree1.insert(2,"Value 2")
