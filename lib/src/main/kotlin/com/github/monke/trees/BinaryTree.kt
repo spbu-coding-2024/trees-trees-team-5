@@ -25,8 +25,12 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     }
 
 
-    override fun search(key: K): N? {
-        var currentNode = rootNode
+    override fun search(key: K): V? {
+        return searchNode(key)?.value
+    }
+
+    protected fun searchNode(key: K): N? {
+        var currentNode: N? = rootNode
         while (currentNode != null) {
             currentNode = when {
                 currentNode.key == key -> return currentNode
@@ -42,7 +46,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     }
 
     operator fun get(key: K): V? {
-        return this.search(key)?.value
+        return this.search(key)
     }
 
     private inner class BinaryTreeIterator : Iterator<Pair<K, V>> {
