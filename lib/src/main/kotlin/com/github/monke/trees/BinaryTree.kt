@@ -49,6 +49,17 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
         return this.search(key)
     }
 
+    override fun plus(tree: T): T {
+        this.insert(tree)
+        return this as T
+    }
+
+    override fun minus(tree: T): T {
+        this.delete(tree)
+        return this as T
+    }
+
+
     private inner class BinaryTreeIterator : Iterator<Pair<K, V>> {
         private val queue: Queue<N> = LinkedList()
 
