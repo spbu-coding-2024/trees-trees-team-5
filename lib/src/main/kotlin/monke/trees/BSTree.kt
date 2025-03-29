@@ -87,10 +87,6 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
      * @return value If key was deleted, else 'null'
      */
     override fun delete(key: K): V? {
-        if (rootNode == null) {
-            throw NoSuchElementException("Node with key $key not found.")
-        }
-
         val node = searchNode(key) ?: throw NoSuchElementException("Node with key $key not found.")
 
         if (node.leftChild == null || node.rightChild == null) {
