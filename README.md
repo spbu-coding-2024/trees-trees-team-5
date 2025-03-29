@@ -108,6 +108,11 @@ fun main() {
 >
 > How in plus if you try to delete key which is not in tree it will throw an error.
 
+
+## 📖 Documentation
+You need to build it by next command in project root
+`./gradlew dokkaHtml`
+
 <hr>
 
 ## 👨‍💻 Authors
@@ -115,6 +120,7 @@ fun main() {
 * [Kharisov Bogdan](https://github.com/lospollosenjoyer)
 * [Oderiy Yaroslav](https://github.com/XRenso)
 * [Tarasov Andrei](https://github.com/TheFollan)
+
 
 ## 🪪 License
 
