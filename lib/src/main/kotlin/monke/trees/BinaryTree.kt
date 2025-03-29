@@ -10,6 +10,13 @@ import java.util.LinkedList
 
 import kotlin.NoSuchElementException
 
+/**
+ * Abstract base class for all binary tree structs
+ * @param K Universal comparable type for key storage
+ * @param V Universal type for value storage
+ * @param N Universal type for storing `Node<K, V, N>`
+ * @param T Universal type for storing `BinaryTree<K,V,N,T>`
+ */
 abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T : BinaryTree<K, V, N, T>> :
     Search<K, V, N>,
     Insert<K, V, N>,
@@ -17,6 +24,11 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     NodeArithmetic<K, V, N, T> {
     protected var rootNode: N? = null
 
+    /**
+     * Insert all nodes from tree to self
+     *
+     * @param tree The tree which nodes insert
+     */
     fun insert(tree: T) {
         for (i in tree) {
             val (key, value) = i
@@ -24,7 +36,11 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
         }
     }
 
-
+    /**
+     * Search value in tree by key
+     * @param key The key of node for search in tree
+     * @return value if key contains in tree, else `null`
+     */
     override fun search(key: K): V? {
         return searchNode(key)?.value
     }
@@ -41,19 +57,38 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
         return null
     }
 
+    /**
+     * Return iterator with pair key value of every node. Using BFS method
+     * @return `Iterator<Pair<K,V>>` of all nodes in the tree by bfs method.
+     */
     operator fun iterator(): Iterator<Pair<K, V>> {
         return BinaryTreeIterator()
     }
 
+    /**
+     * Search value by key with get operator
+     * @param key The key of node for search in tree
+     * @return value if key contains in tree, else `null`
+     */
     operator fun get(key: K): V? {
         return this.search(key)
     }
 
+    /**
+     * Insert tree with plus operator
+     * @param tree The tree which nodes insert
+     * @return this
+     */
     override fun plus(tree: T): T? {
         this.insert(tree)
         return this as? T
     }
 
+    /**
+     * Delete nodes by another tree with minus operator
+     * @param tree The tree which nodes delete
+     * @return this
+     */
     override fun minus(tree: T): T? {
         this.delete(tree)
         return this as? T
