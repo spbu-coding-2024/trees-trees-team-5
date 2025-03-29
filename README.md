@@ -48,10 +48,6 @@ fun main() {
 }
 ```
 
-> [!IMPORTANT]
->
->Get returns only value by key, when search is returning node object.
-
 ### 🧮 Arithmetic
 
 #### Plus
