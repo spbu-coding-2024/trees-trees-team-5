@@ -5,6 +5,7 @@
 <hr>
 
 ## 🌲 Supported Trees
+
 * Binary Search Tree
 * AVL Tree
 * Red-Black Tree
@@ -26,7 +27,8 @@ fun main() {
 
 ## 💡 Features
 
-* <b>Arithmetic operators</b> - you can plus and minus one tree from another. This will insert/delete nodes from one tree in another
+* <b>Arithmetic operators</b> - you can plus and minus one tree from another. This will insert/delete nodes from one
+  tree in another
 * <b>Get operator</b> - you can get value just by get operator from key
 
 ## 📃 Example
@@ -104,15 +106,16 @@ fun main() {
 
 > [!IMPORTANT]
 >
-> How in plus if you try to delete key which is not in tree it will throw an error
+> How in plus if you try to delete key which is not in tree it will throw an error.
 
 <hr>
 
 ## 👨‍💻 Authors
+
 * [Kharisov Bogdan](https://github.com/lospollosenjoyer)
 * [Oderiy Yaroslav](https://github.com/XRenso)
 * [Tarasov Andrei](https://github.com/TheFollan)
 
-
 ## 🪪 License
+
 This projected is licensed under the [<b>MIT License</b>](LICENSE).
