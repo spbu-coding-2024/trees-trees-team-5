@@ -21,7 +21,7 @@ fun main() {
 
     bst.insert(1, "Example value for search method")
 
-    println(bst.search(1).value) // Example value for search method
+    println(bst.search(1)) // Example value for search method
 }
 ```
 
