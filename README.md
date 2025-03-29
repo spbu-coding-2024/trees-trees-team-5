@@ -110,8 +110,7 @@ fun main() {
 
 
 ## 📖 Documentation
-You need to build it by next command in project root
-`./gradlew dokkaHtml`
+You need to build it with `./gradlew dokkaHtml` in project root
 
 <hr>
 
