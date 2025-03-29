@@ -115,4 +115,18 @@ class BSTreeTest {
         assertEquals(1, tree.delete(1))
         assertEquals(true, compareTree(tree, expectedResult))
     }
+
+    @Test
+    fun `Copy BST test`(){
+        val tree = BSTree<Int, Int>()
+        tree.insert(1,1)
+        val tree2 = tree.copy()
+        tree2.insert(2, 2)
+        val expectedResultTree1 = listOf(Pair(1,1))
+        val expectedResultTree2 = listOf(Pair(1,1), Pair(2,2))
+
+        assertEquals(true, compareTree(tree, expectedResultTree1))
+        assertEquals(true, compareTree(tree2, expectedResultTree2))
+
+    }
 }
