@@ -4,7 +4,7 @@ import monke.nodes.BSTNode
 
 /**
  * The Binary Tree Search
- * @author Oderiy Yaroslav (https://github.com/XRenso)
+ * @author Oderiy Yaroslav
  * @param K Universal comparable type for key storage
  * @param V Universal type for value storage
  */
