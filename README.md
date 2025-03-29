@@ -4,10 +4,15 @@
 
 <hr>
 
+## 🌲 Supported Trees
+* Binary Search Tree
+* AVL Tree
+* Red-Black Tree
+
 ## 🛠️ Quick Start
 
 ```kotlin
-import trees.BSTree
+import monke.trees
 
 fun main() {
 
@@ -21,14 +26,15 @@ fun main() {
 
 ## 💡 Features
 
-* <b>Simple code</b> - you can write clear and simple code for work with trees.
+* <b>Arithmetic operators</b> - you can plus and minus one tree from another. This will insert/delete nodes from one tree in another
+* <b>Get operator</b> - you can get value just by get operator from key
 
 ## 📃 Example
 
 ### Get value by key
 
 ```kotlin
-import trees.BSTree
+import monke.trees
 
 fun main() {
 
@@ -44,12 +50,12 @@ fun main() {
 >
 >Get returns only value by key, when search is returning node object.
 
-### Arithmetic
+### 🧮 Arithmetic
 
 #### Plus
 
 ```kotlin
-import trees.BSTree
+import monke.trees
 
 fun main() {
     val tree1 = BSTree<Int, String>()
@@ -77,7 +83,7 @@ fun main() {
 #### Minus
 
 ```kotlin
-import trees.BSTree
+import monke.trees
 
 fun main() {
     var tree1 = BSTree<Int, String>()
@@ -99,3 +105,14 @@ fun main() {
 > [!IMPORTANT]
 >
 > How in plus if you try to delete key which is not in tree it will throw an error
+
+<hr>
+
+## 👨‍💻 Authors
+* [Kharisov Bogdan](https://github.com/lospollosenjoyer)
+* [Oderiy Yaroslav](https://github.com/XRenso)
+* [Tarasov Andrei](https://github.com/TheFollan)
+
+
+## 🪪 License
+This projected is licensed under the [<b>MIT License</b>](LICENSE).
