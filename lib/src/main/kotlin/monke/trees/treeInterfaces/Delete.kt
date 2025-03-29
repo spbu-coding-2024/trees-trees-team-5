@@ -1,7 +1,7 @@
-package com.github.monke.trees.treeInterfaces
+package monke.trees.treeInterfaces
 
-import com.github.monke.nodes.BinaryTreeNode
-import com.github.monke.trees.BinaryTree
+import monke.nodes.BinaryTreeNode
+import monke.trees.BinaryTree
 
 public interface Delete<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T : BinaryTree<K, V, N, T>> {
     fun delete(key: K): V?

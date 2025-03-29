@@ -1,6 +1,6 @@
-package com.github.monke.trees.treeInterfaces
+package monke.trees.treeInterfaces
 
-import com.github.monke.nodes.BinaryTreeNode
+import monke.nodes.BinaryTreeNode
 
 
 public interface Insert<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>> {

@@ -1,4 +1,4 @@
-package com.github.monke.nodes
+package monke.nodes
 
 public abstract class BinaryTreeNode<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>>(
     val key: K,

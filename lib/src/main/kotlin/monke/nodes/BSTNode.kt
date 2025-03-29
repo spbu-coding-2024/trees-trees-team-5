@@ -1,4 +1,4 @@
-package com.github.monke.nodes
+package monke.nodes
 
 import java.util.Stack
 

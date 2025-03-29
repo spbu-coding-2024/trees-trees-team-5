@@ -1,10 +1,10 @@
-package com.github.monke.trees
+package monke.trees
 
-import com.github.monke.nodes.BinaryTreeNode
-import com.github.monke.trees.treeInterfaces.Search
-import com.github.monke.trees.treeInterfaces.Insert
-import com.github.monke.trees.treeInterfaces.Delete
-import com.github.monke.trees.treeInterfaces.NodeArithmetic
+import monke.nodes.BinaryTreeNode
+import monke.trees.treeInterfaces.Search
+import monke.trees.treeInterfaces.Insert
+import monke.trees.treeInterfaces.Delete
+import monke.trees.treeInterfaces.NodeArithmetic
 import java.util.Queue
 import java.util.LinkedList
 
@@ -49,14 +49,14 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
         return this.search(key)
     }
 
-    override fun plus(tree: T): T {
+    override fun plus(tree: T): T? {
         this.insert(tree)
-        return this as T
+        return this as? T
     }
 
-    override fun minus(tree: T): T {
+    override fun minus(tree: T): T? {
         this.delete(tree)
-        return this as T
+        return this as? T
     }
 
 

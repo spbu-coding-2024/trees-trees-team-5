@@ -1,6 +1,6 @@
-package com.github.monke.trees
+package monke.trees
 
-import com.github.monke.nodes.BSTNode
+import monke.nodes.BSTNode
 
 
 public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTree<K, V>>() {
