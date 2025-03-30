@@ -1,6 +1,6 @@
-package com.github.monke.trees
+package monke.trees
 
-import com.github.monke.nodes.AVLNode
+import monke.nodes.AVLNode
 import java.util.*
 import kotlin.math.max
 
