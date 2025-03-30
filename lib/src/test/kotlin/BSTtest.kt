@@ -58,7 +58,7 @@ class BSTreeTest {
         tree.insert(-1, -1)
         val expectedResult = listOf(Pair(-1, -1), Pair(2, 2))
 
-        tree.delete(1)
+        assertEquals(1, tree.delete(1))
         assertEquals(true, compareTree(tree, expectedResult))
     }
 
