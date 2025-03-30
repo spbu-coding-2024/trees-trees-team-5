@@ -1,21 +1,21 @@
 package com.github.monke.trees
 
 import com.github.monke.nodes.AVLNode
-import java.util.Stack
+import java.util.*
 import kotlin.math.max
 
 typealias Path<K, V> = Stack<AVLNode<K, V>>
 
-public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
+class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
     override fun insert(key: K, value: V) {
+        val insertedNode: AVLNode<K, V> = AVLNode(key, value)
         val path: Path<K, V>? = rootNode?.searchPath(key)
 
-        val insertedNode: AVLNode<K, V> = AVLNode(key, value)
-        if (path.isNullOrEmpty()) {
+        if (path == null) {
             rootNode = insertedNode
         } else {
             if (path.peek().key == key) {
-                throw IllegalArgumentException("Node with such key already exists")
+                throw IllegalArgumentException("Node with key $key already exists")
             } else {
                 path.roadToRootNode(key, insertedNode)
             }
@@ -41,7 +41,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
         } else {
             val deletedNode: AVLNode<K, V> = path.pop()
             if (deletedNode.key != key) {
-                return null
+                throw NoSuchElementException("Node with key $key does not exist yet")
             }
 
             val lChild: AVLNode<K, V>? = deletedNode.leftChild
@@ -109,24 +109,25 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
     }
 
     private fun rebalanced(node: AVLNode<K, V>): AVLNode<K, V> {
-        fun rotatedRight(node: AVLNode<K, V>): AVLNode<K, V> {
-            val successor: AVLNode<K, V> = node.leftChild as AVLNode<K, V>
-            node.leftChild = successor.rightChild
-            successor.rightChild = node
+        fun rotated(node: AVLNode<K, V>, left: Boolean): AVLNode<K, V> {
+            val successor = if (left) node.rightChild as AVLNode<K, V> else node.leftChild as AVLNode<K, V>
+
+            if (left) {
+                node.rightChild = successor.leftChild
+                successor.leftChild = node
+            } else {
+                node.leftChild = successor.rightChild
+                successor.rightChild = node
+            }
             reheight(node)
             reheight(successor)
             return successor
         }
 
-        fun rotatedLeft(node: AVLNode<K, V>): AVLNode<K, V> {
-            val successor: AVLNode<K, V> = node.rightChild as AVLNode<K, V>
-            node.rightChild = successor.leftChild
-            successor.leftChild = node
-            reheight(node)
-            reheight(successor)
-            return successor
-        }
+        fun rotatedRight(node: AVLNode<K, V>): AVLNode<K, V> = rotated(node, false)
+        fun rotatedLeft(node: AVLNode<K, V>): AVLNode<K, V> = rotated(node, true)
 
+        // balance logic
         reheight(node)
         when (balanceFactor(node)) {
             2 -> {
