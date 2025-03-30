@@ -32,7 +32,7 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
             currentNode = when {
                 node.key < currentNode.key -> currentNode.leftChild
                 node.key > currentNode.key -> currentNode.rightChild
-                else -> throw IllegalArgumentException("Node with key ${node.key} is already exist.")
+                else -> throw IllegalArgumentException("Node with key $key already exists")
             }
         }
 
@@ -87,7 +87,7 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
      * @return value If key was deleted, else 'null'
      */
     override fun delete(key: K): V? {
-        val node = searchNode(key) ?: throw NoSuchElementException("Node with key $key not found.")
+        val node = searchNode(key) ?: throw NoSuchElementException("Node with key $key does not exist yet")
 
         if (node.leftChild == null || node.rightChild == null) {
             val newNode = if (node.leftChild == null) node.rightChild else node.leftChild
