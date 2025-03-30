@@ -1,4 +1,4 @@
-package com.github.monke.nodes
+package monke.nodes
 
 public class AVLNode<K : Comparable<K>, V>(
     key: K,

@@ -1,12 +1,12 @@
-package com.github.monke.trees
+package monke.trees
 
-import com.github.monke.nodes.AVLNode
+import monke.nodes.AVLNode
 import java.util.*
 import kotlin.math.max
 
 typealias Path<K, V> = Stack<AVLNode<K, V>>
 
-class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
+public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
     override fun insert(key: K, value: V) {
         val insertedNode: AVLNode<K, V> = AVLNode(key, value)
         val path: Path<K, V>? = rootNode?.searchPath(key)
@@ -36,7 +36,7 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>>() {
         }
 
         val path: Path<K, V>? = rootNode?.searchPath(key)
-        if (path.isNullOrEmpty()) {
+        if (path == null) {
             return null
         } else {
             val deletedNode: AVLNode<K, V> = path.pop()
