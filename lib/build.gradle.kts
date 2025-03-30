@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
 }
 
-group = "org.monke"
+group = "monke"
 version = "1.0"
 
 subprojects {

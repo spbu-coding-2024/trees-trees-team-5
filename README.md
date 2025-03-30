@@ -1,6 +1,6 @@
 <p align="center"><img src="https://i.imgur.com/ZNsaOXf.jpeg" height="258" alt="Monke pic" /> </p>
 <h1 align="center">MONKE</h1>
-<p align="center">Library for kotlin that help you work with data by simple interface of Binary Tree.</p>
+<p align="center">Kotlin library providing simple interface to work with data for some types of binary trees</p>
 
 <hr>
 
@@ -27,9 +27,8 @@ fun main() {
 
 ## 💡 Features
 
-* <b>Arithmetic operators</b> - you can plus and minus one tree from another. This will insert/delete nodes from one
-  tree in another
-* <b>Get operator</b> - you can get value just by get operator from key
+* <b>Arithmetic operations</b> - add and subtract interface for two trees to insert or remove all nodes of one tree into/from another one
+* <b>Get operator</b> - retrieving values using the get operator with a key
 
 ## 📃 Example
 
@@ -58,25 +57,25 @@ import monke.trees
 fun main() {
     val tree1 = BSTree<Int, String>()
     val tree2 = BSTree<Int, String>()
-    tree1.insert(1, "Value from first tree")
-    tree2.insert(2, "Value from second tree")
+    tree1.insert(1, "value from first tree")
+    tree2.insert(2, "value from second tree")
 
     val tree3 = tree1.copy() + tree2
-    tree3.insert(-1, "Value from third tree")
+    tree3.insert(-1, "value from third tree")
     for (i in tree3) {
         println(i)
     }
     /*
-    (1, Value from first tree)
-    (-1, Value from third tree)
-    (2, Value from second tree)
+    (1, value from first tree)
+    (-1, value from third tree)
+    (2, value from second tree)
     */
 }
 ```
 
 > [!IMPORTANT]
 >
->Inserting node with same key will throw error, so you need to check if keys is unique
+> Inserting a node with an existing key results in an error. Ensure keys are unique before inserting.
 
 #### Minus
 
@@ -85,29 +84,32 @@ import monke.trees
 
 fun main() {
     var tree1 = BSTree<Int, String>()
-    tree1.insert(1, "Value 1")
-    tree1.insert(2, "Value 2")
-    tree1.insert(3, "Value 3")
+    tree1.insert(1, "value 1")
+    tree1.insert(2, "value 2")
+    tree1.insert(3, "value 3")
     val tree2 = tree1.copy()
 
-    tree1.insert(4, "Value 4")
+    tree1.insert(4, "value 4")
+  
     tree1 -= tree2
+  
     for (i in tree1) {
         println(i)
     }
 /*
-(4, Value 4)
+(4, value 4)
 */
 ```
 
 > [!IMPORTANT]
 >
-> How in plus if you try to delete key which is not in tree it will throw an error.
+> As in addition, try to delete a key that does not exist in the tree throws an error.
 
 
 ## 📖 Documentation
-You need to build it with `./gradlew dokkaHtml` in project root
-
+To generate documentation, run:<br>
+`./gradlew dokkaHtml` <br>
+from the project root.
 <hr>
 
 ## 👨‍💻 Authors
@@ -119,4 +121,4 @@ You need to build it with `./gradlew dokkaHtml` in project root
 
 ## 🪪 License
 
-This projected is licensed under the [<b>MIT License</b>](LICENSE).
+This project is licensed under the [<b>MIT License</b>](LICENSE).

@@ -1,7 +1,9 @@
 package monke.trees
 
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertThrows
 
 class BSTreeTest {
     fun <K : Comparable<K>, V> compareTree(tree: BSTree<K, V>, expected: List<Pair<K, V>>): Boolean {
