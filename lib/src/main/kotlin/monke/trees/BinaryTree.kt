@@ -79,9 +79,9 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
      * @param tree The tree which nodes insert
      * @return this
      */
-    override fun plus(tree: T): T? {
+    override fun plus(tree: T): T {
         this.insert(tree)
-        return this as? T
+        return this as T
     }
 
     /**
@@ -89,9 +89,9 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
      * @param tree The tree which nodes delete
      * @return this
      */
-    override fun minus(tree: T): T? {
+    override fun minus(tree: T): T {
         this.delete(tree)
-        return this as? T
+        return this as T
     }
 
 
