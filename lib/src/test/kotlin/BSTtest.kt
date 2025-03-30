@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertThrows
 
 class BSTreeTest {
-    fun <K : Comparable<K>, V> compareTree(tree: BSTree<K, V>, expected: List<Pair<K, V>>): Boolean {
+    private fun <K : Comparable<K>, V> compareTree(tree: BSTree<K, V>, expected: List<Pair<K, V>>): Boolean {
         var idx = 0
         for (i in tree) {
             if (expected[idx] != i) return false
