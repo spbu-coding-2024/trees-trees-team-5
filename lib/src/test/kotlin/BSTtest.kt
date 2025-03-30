@@ -89,8 +89,8 @@ class BSTreeTest {
     }
 
     @Test
-    fun `Insert BST test same key`(){
-        assertThrows(IllegalArgumentException::class.java){
+    fun `Insert BST test same key`() {
+        assertThrows(IllegalArgumentException::class.java) {
             val tree = BSTree<Int, Int>()
             tree.insert(1, 1)
             tree.insert(1, 2)
@@ -98,15 +98,15 @@ class BSTreeTest {
     }
 
     @Test
-    fun `Delete BST test not exist key`(){
-        assertThrows(NoSuchElementException::class.java){
+    fun `Delete BST test not exist key`() {
+        assertThrows(NoSuchElementException::class.java) {
             val tree = BSTree<Int, Int>()
             tree.delete(1)
         }
     }
 
     @Test
-    fun `Delete root BST test `(){
+    fun `Delete root BST test `() {
         val tree = BSTree<Int, Int>()
         tree.insert(1, 1)
         tree.insert(3, 3)
@@ -119,13 +119,13 @@ class BSTreeTest {
     }
 
     @Test
-    fun `Copy BST test`(){
+    fun `Copy BST test`() {
         val tree = BSTree<Int, Int>()
-        tree.insert(1,1)
+        tree.insert(1, 1)
         val tree2 = tree.copy()
         tree2.insert(2, 2)
-        val expectedResultTree1 = listOf(Pair(1,1))
-        val expectedResultTree2 = listOf(Pair(1,1), Pair(2,2))
+        val expectedResultTree1 = listOf(Pair(1, 1))
+        val expectedResultTree2 = listOf(Pair(1, 1), Pair(2, 2))
 
         assertEquals(true, compareTree(tree, expectedResultTree1))
         assertEquals(true, compareTree(tree2, expectedResultTree2))

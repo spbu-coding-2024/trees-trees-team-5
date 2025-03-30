@@ -27,7 +27,8 @@ fun main() {
 
 ## 💡 Features
 
-* <b>Arithmetic operations</b> - add and subtract interface for two trees to insert or remove all nodes of one tree into/from another one
+* <b>Arithmetic operations</b> - add and subtract interface for two trees to insert or remove all nodes of one tree
+  into/from another one
 * <b>Get operator</b> - retrieving values using the get operator with a key
 
 ## 📃 Example
@@ -90,9 +91,9 @@ fun main() {
     val tree2 = tree1.copy()
 
     tree1.insert(4, "value 4")
-  
+
     tree1 -= tree2
-  
+
     for (i in tree1) {
         println(i)
     }
@@ -105,8 +106,8 @@ fun main() {
 >
 > As in addition, try to delete a key that does not exist in the tree throws an error.
 
-
 ## 📖 Documentation
+
 To generate documentation, run:<br>
 `./gradlew dokkaHtml` <br>
 from the project root.
@@ -117,7 +118,6 @@ from the project root.
 * [Kharisov Bogdan](https://github.com/lospollosenjoyer)
 * [Oderiy Yaroslav](https://github.com/XRenso)
 * [Tarasov Andrei](https://github.com/TheFollan)
-
 
 ## 🪪 License
 
