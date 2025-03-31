@@ -26,13 +26,13 @@ class BSTreeTest {
 
     @RepeatedTest(3)
     fun `Search BST test`() {
-        var random = (1..10000).shuffled().take(1000)
+        val random = (1..10000).shuffled().take(1000)
         val tree = BSTree<Int, Int>()
         for (i in random) {
             tree.insert(i, i)
         }
-        val shuffled_random = random.shuffled()
-        for (i in shuffled_random) {
+        val shuffledRandom = random.shuffled()
+        for (i in shuffledRandom) {
             assertEquals(i, tree[i])
         }
     }
@@ -145,6 +145,4 @@ class BSTreeTest {
         assertEquals(true, compareTree(tree2, expectedResultTree2))
 
     }
-
-
 }
