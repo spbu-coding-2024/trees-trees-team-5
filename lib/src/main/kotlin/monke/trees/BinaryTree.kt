@@ -1,14 +1,11 @@
 package monke.trees
 
 import monke.nodes.BinaryTreeNode
-import monke.trees.treeInterfaces.Search
-import monke.trees.treeInterfaces.Insert
 import monke.trees.treeInterfaces.Delete
+import monke.trees.treeInterfaces.Insert
 import monke.trees.treeInterfaces.NodeArithmetic
-import java.util.Queue
-import java.util.LinkedList
-
-import kotlin.NoSuchElementException
+import monke.trees.treeInterfaces.Search
+import java.util.*
 
 /**
  * Abstract base class for all binary tree structs
@@ -22,78 +19,87 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     Insert<K, V, N>,
     Delete<K, V, N, T>,
     NodeArithmetic<K, V, N, T> {
+
     protected var rootNode: N? = null
 
+    fun getRootNodeInfo(): Pair<K, V>? {
+        val root: N? = rootNode
+        root?.let {
+            return Pair(root.key, root.value)
+        }
+        return null
+    }
+
     /**
-     * Insert all nodes from tree to self
+     * Insert all nodes from another tree to this one
      *
-     * @param tree The tree which nodes insert
+     * @param tree tree, which nodes are inserted
      */
     fun insert(tree: T) {
-        for (i in tree) {
-            val (key, value) = i
+        for (node in tree) {
+            val (key, value) = node
             this.insert(key, value)
         }
     }
 
     /**
-     * Search value in tree by key
-     * @param key The key of node for search in tree
-     * @return value if key contains in tree, else `null`
+     * Search for the value in tree by key
+     * @param key the key of node for search in tree
+     * @return value if tree contains node with such key, else throws `NoSuchElementException`
      */
-    override fun search(key: K): V? {
-        return searchNode(key)?.value
+    override fun search(key: K): V {
+        val resultNode: N = searchNode(key) ?: throw NoSuchElementException("Node with key $key does not exist yet")
+        return resultNode.value
     }
 
     protected fun searchNode(key: K): N? {
         var currentNode: N? = rootNode
         while (currentNode != null) {
             currentNode = when {
-                currentNode.key == key -> return currentNode
+                currentNode.key > key -> currentNode.leftChild
                 currentNode.key < key -> currentNode.rightChild
-                else -> currentNode.leftChild
+                else -> return currentNode
             }
         }
         return null
     }
 
     /**
-     * Return iterator with pair key value of every node. Using BFS method
-     * @return `Iterator<Pair<K,V>>` of all nodes in the tree by bfs method.
+     * Return iterator with a pair of key and value of every node. Use level-order traversal
+     * @return `Iterator<Pair<K,V>>` for each node in the tree by level-order traversal
      */
     operator fun iterator(): Iterator<Pair<K, V>> {
         return BinaryTreeIterator()
     }
 
     /**
-     * Search value by key with get operator
-     * @param key The key of node for search in tree
-     * @return value if key contains in tree, else `null`
+     * Search for the value by key with get operator
+     * @param key the key of node for search in tree
+     * @return value if tree contains node with such key, else throws `NoSuchElementException`
      */
     operator fun get(key: K): V? {
         return this.search(key)
     }
 
     /**
-     * Insert tree with plus operator
-     * @param tree The tree which nodes insert
-     * @return this
+     * Insert another tree to this one by plus operation
+     * @param other tree which nodes are inserted
+     * @return this tree
      */
-    override fun plus(tree: T): T {
-        this.insert(tree)
+    override fun plus(other: T): T {
+        this.insert(other)
         return this as T
     }
 
     /**
-     * Delete nodes by another tree with minus operator
-     * @param tree The tree which nodes delete
-     * @return this
+     * Delete nodes of another trees from this one by minus operation
+     * @param other tree, which nodes are deleted
+     * @return this tree
      */
-    override fun minus(tree: T): T {
-        this.delete(tree)
+    override fun minus(other: T): T {
+        this.delete(other)
         return this as T
     }
-
 
     private inner class BinaryTreeIterator : Iterator<Pair<K, V>> {
         private val queue: Queue<N> = LinkedList()

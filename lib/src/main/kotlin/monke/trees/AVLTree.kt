@@ -7,6 +7,8 @@ import kotlin.math.max
 typealias Path<K, V> = Stack<AVLNode<K, V>>
 
 public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
+    val height: Int = rootNode.getHeight()
+
     override fun insert(key: K, value: V) {
         val insertedNode: AVLNode<K, V> = AVLNode(key, value)
         val path: Path<K, V>? = rootNode?.searchPath(key)
@@ -35,13 +37,17 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
             return rebalanced(node)
         }
 
+        // delete logic
         val path: Path<K, V>? = rootNode?.searchPath(key)
         if (path == null) {
-            return null
+            throw NoSuchElementException("Node with key $key does not exist yet")
         } else {
             val deletedNode: AVLNode<K, V> = path.pop()
             if (deletedNode.key != key) {
                 throw NoSuchElementException("Node with key $key does not exist yet")
+            } else if (path.isEmpty()) {
+                rootNode = null
+                return deletedNode.value
             }
 
             val lChild: AVLNode<K, V>? = deletedNode.leftChild
@@ -60,6 +66,22 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
             path.roadToRootNode(key, replacingNode)
             return deletedNode.value
         }
+    }
+
+    private fun AVLNode<K, V>.searchPath(key: K): Path<K, V> {
+        val path: Path<K, V> = Path()
+        var currentNode: AVLNode<K, V>? = this
+
+        while (currentNode != null) {
+            path.push(currentNode)
+            currentNode = when {
+                key < currentNode.key -> currentNode.leftChild
+                key > currentNode.key -> currentNode.rightChild
+                else -> null
+            }
+        }
+
+        return path
     }
 
     private fun Path<K, V>.roadToRootNode(key: K, newNode: AVLNode<K, V>?) {
@@ -84,28 +106,16 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         rootNode = rebalanced(currentNode)
     }
 
-    private fun AVLNode<K, V>.searchPath(key: K): Path<K, V> {
-        val path: Path<K, V> = Path()
-        var currentNode: AVLNode<K, V>? = this
-
-        while (currentNode != null) {
-            path.push(currentNode)
-            currentNode = when {
-                key < currentNode.key -> currentNode.leftChild
-                key > currentNode.key -> currentNode.rightChild
-                else -> null
-            }
-        }
-
-        return path
+    private fun AVLNode<K, V>?.getHeight(): Int {
+        return this?.height ?: 0
     }
 
     private fun balanceFactor(node: AVLNode<K, V>): Int {
-        return (node.rightChild?.height ?: 0) - (node.leftChild?.height ?: 0)
+        return node.rightChild.getHeight() - node.leftChild.getHeight()
     }
 
     private fun reheight(node: AVLNode<K, V>) {
-        node.height = max(node.rightChild?.height ?: 0, node.leftChild?.height ?: 0) + 1
+        node.height = max(node.rightChild.getHeight(), node.leftChild.getHeight()) + 1
     }
 
     private fun rebalanced(node: AVLNode<K, V>): AVLNode<K, V> {
