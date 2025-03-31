@@ -7,7 +7,9 @@ import kotlin.math.max
 typealias Path<K, V> = Stack<AVLNode<K, V>>
 
 public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
-    val height: Int = rootNode.getHeight()
+    fun getHeight(): Int {
+        return rootNode.getHeight()
+    }
 
     override fun insert(key: K, value: V) {
         val insertedNode: AVLNode<K, V> = AVLNode(key, value)

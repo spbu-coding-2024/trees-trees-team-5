@@ -44,7 +44,7 @@ internal class AVLTreeTest {
         @Test
         fun `height of empty tree`() {
             val expectedHeight = 0
-            assertEquals(expectedHeight, tree.height)
+            assertEquals(expectedHeight, tree.getHeight())
         }
 
         @Test
@@ -98,14 +98,15 @@ internal class AVLTreeTest {
                 val tree: AVLTree<Int, String> = AVLTree()
                 val rootKey = 0
                 val rootValue = defaultNodeValue(rootKey)
-                val oldHeight = 1
                 tree.insert(rootKey, rootValue)
+                val oldHeight = 1
 
                 val insertKey = 1
                 val insertValue = defaultNodeValue(insertKey)
+                tree.insert(insertKey, insertValue)
                 val expectedHeight = oldHeight + 1
                 assertEquals(tree[insertKey], insertValue)
-                assertEquals(expectedHeight, tree.height)
+                assertEquals(expectedHeight, tree.getHeight())
             }
         }
     }
@@ -125,7 +126,7 @@ internal class AVLTreeTest {
 
                 val expected: AVLTree<Int, String> = AVLTree()
                 assertTrue(areSimilarTrees(expected, tree))
-                assertEquals(expectedHeight, tree.height)
+                assertEquals(expectedHeight, tree.getHeight())
             }
         }
     }
