@@ -61,7 +61,9 @@ class BSTreeTest {
         val value = "Test Value"
         tree.insert(1, value)
         assertEquals(value, tree.delete(1))
-        assertNull(tree[1])
+        assertThrows(NoSuchElementException::class.java) {
+            tree[1]
+        }
     }
 
     @Test
