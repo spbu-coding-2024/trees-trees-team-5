@@ -1,19 +1,22 @@
 package monke.trees
 
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD
 
 internal class AVLTreeTest {
     private fun <K> defaultNodeValue(key: K): String = "value of $key"
 
-    private fun <K : Comparable<K>, V> treeBuilder(valueBuilder: (K) -> V, vararg keys: K): AVLTree<K, V> {
+    private fun <K : Comparable<K>, V> treeBuilder(
+        valueBuilder: (K) -> V,
+        vararg keys: K,
+    ): AVLTree<K, V> {
         val tree: AVLTree<K, V> = AVLTree()
         for (key in keys) {
             tree.insert(key, valueBuilder(key))
@@ -21,7 +24,10 @@ internal class AVLTreeTest {
         return tree
     }
 
-    private fun <K : Comparable<K>, V> areSimilarTrees(first: AVLTree<K, V>, second: AVLTree<K, V>): Boolean {
+    private fun <K : Comparable<K>, V> areSimilarTrees(
+        first: AVLTree<K, V>,
+        second: AVLTree<K, V>,
+    ): Boolean {
         val firstTreeList: MutableList<Pair<K, V>> = mutableListOf()
         val secondTreeList: MutableList<Pair<K, V>> = mutableListOf()
 
@@ -35,7 +41,6 @@ internal class AVLTreeTest {
 
         return firstTreeList.size == secondTreeList.size && firstTreeList.containsAll(secondTreeList)
     }
-
 
     @Nested
     @TestInstance(PER_METHOD)
@@ -56,27 +61,30 @@ internal class AVLTreeTest {
         @Test
         fun `search the node in empty tree`() {
             val searchKey = 0
-            val exceptionMessage: String? = assertFailsWith<NoSuchElementException> {
-                tree.search(searchKey)
-            }.message
+            val exceptionMessage: String? =
+                assertFailsWith<NoSuchElementException> {
+                    tree.search(searchKey)
+                }.message
             assertEquals(exceptionMessage, "Node with key $searchKey does not exist yet")
         }
 
         @Test
         fun `get the node from empty tree`() {
             val getKey = 0
-            val exceptionMessage: String? = assertFailsWith<NoSuchElementException> {
-                tree[getKey]
-            }.message
+            val exceptionMessage: String? =
+                assertFailsWith<NoSuchElementException> {
+                    tree[getKey]
+                }.message
             assertEquals(exceptionMessage, "Node with key $getKey does not exist yet")
         }
 
         @Test
         fun `delete the node from empty tree`() {
             val deleteKey = 0
-            val exceptionMessage: String? = assertFailsWith<NoSuchElementException> {
-                tree.delete(deleteKey)
-            }.message
+            val exceptionMessage: String? =
+                assertFailsWith<NoSuchElementException> {
+                    tree.delete(deleteKey)
+                }.message
             assertEquals(exceptionMessage, "Node with key $deleteKey does not exist yet")
         }
     }
@@ -261,16 +269,25 @@ internal class AVLTreeTest {
                     val deleteKey = 0
                     val secondKey = 100
                     val thirdKey = 150
-                    val tree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, firstKey, deleteKey, secondKey, thirdKey
-                    )
+                    val tree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            firstKey,
+                            deleteKey,
+                            secondKey,
+                            thirdKey,
+                        )
                     val oldHeight = 3
 
                     tree.delete(deleteKey)
 
-                    val expectedTree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, secondKey, firstKey, thirdKey
-                    )
+                    val expectedTree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            secondKey,
+                            firstKey,
+                            thirdKey,
+                        )
                     val expectedHeight = oldHeight - 1
 
                     assertTrue(areSimilarTrees(expectedTree, tree))
@@ -283,16 +300,25 @@ internal class AVLTreeTest {
                     val deleteKey = 0
                     val secondKey = 100
                     val thirdKey = 75
-                    val tree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, firstKey, deleteKey, secondKey, thirdKey
-                    )
+                    val tree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            firstKey,
+                            deleteKey,
+                            secondKey,
+                            thirdKey,
+                        )
                     val oldHeight = 3
 
                     tree.delete(deleteKey)
 
-                    val expectedTree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, thirdKey, firstKey, secondKey
-                    )
+                    val expectedTree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            thirdKey,
+                            firstKey,
+                            secondKey,
+                        )
                     val expectedHeight = oldHeight - 1
 
                     assertTrue(areSimilarTrees(expectedTree, tree))
@@ -305,16 +331,25 @@ internal class AVLTreeTest {
                     val secondKey = 0
                     val deleteKey = 100
                     val thirdKey = -50
-                    val tree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, firstKey, secondKey, deleteKey, thirdKey
-                    )
+                    val tree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            firstKey,
+                            secondKey,
+                            deleteKey,
+                            thirdKey,
+                        )
                     val oldHeight = 3
 
                     tree.delete(deleteKey)
 
-                    val expectedTree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, secondKey, thirdKey, firstKey
-                    )
+                    val expectedTree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            secondKey,
+                            thirdKey,
+                            firstKey,
+                        )
                     val expectedHeight = oldHeight - 1
 
                     assertTrue(areSimilarTrees(expectedTree, tree))
@@ -327,16 +362,25 @@ internal class AVLTreeTest {
                     val secondKey = 0
                     val deleteKey = 100
                     val thirdKey = 25
-                    val tree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, firstKey, secondKey, deleteKey, thirdKey
-                    )
+                    val tree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            firstKey,
+                            secondKey,
+                            deleteKey,
+                            thirdKey,
+                        )
                     val oldHeight = 3
 
                     tree.delete(deleteKey)
 
-                    val expectedTree: AVLTree<Int, String> = treeBuilder(
-                        ::defaultNodeValue, thirdKey, secondKey, firstKey
-                    )
+                    val expectedTree: AVLTree<Int, String> =
+                        treeBuilder(
+                            ::defaultNodeValue,
+                            thirdKey,
+                            secondKey,
+                            firstKey,
+                        )
                     val expectedHeight = oldHeight - 1
 
                     assertTrue(areSimilarTrees(expectedTree, tree))
@@ -359,12 +403,13 @@ internal class AVLTreeTest {
             val secondTryKey = 2
             val secondTryValue = defaultNodeValue(secondTryKey)
 
-            val exceptionMessage: String? = assertFailsWith<IllegalArgumentException> {
-                with(tree) {
-                    insert(firstTryKey, firstTryValue)
-                    insert(secondTryKey, secondTryValue)
-                }
-            }.message
+            val exceptionMessage: String? =
+                assertFailsWith<IllegalArgumentException> {
+                    with(tree) {
+                        insert(firstTryKey, firstTryValue)
+                        insert(secondTryKey, secondTryValue)
+                    }
+                }.message
             assertEquals(exceptionMessage, "Node with key $secondTryKey already exists")
         }
 
@@ -373,12 +418,13 @@ internal class AVLTreeTest {
             val firstTryKey = 2
             val secondTryKey = 2
 
-            val exceptionMessage: String? = assertFailsWith<NoSuchElementException> {
-                with(tree) {
-                    delete(firstTryKey)
-                    delete(secondTryKey)
-                }
-            }.message
+            val exceptionMessage: String? =
+                assertFailsWith<NoSuchElementException> {
+                    with(tree) {
+                        delete(firstTryKey)
+                        delete(secondTryKey)
+                    }
+                }.message
             assertEquals(exceptionMessage, "Node with key $secondTryKey does not exist yet")
         }
     }

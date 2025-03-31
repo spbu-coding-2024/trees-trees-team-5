@@ -5,6 +5,7 @@ import monke.trees.BinaryTree
 
 public interface Delete<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T : BinaryTree<K, V, N, T>> {
     fun delete(key: K): V?
+
     fun delete(tree: T): Boolean {
         for (i in tree) {
             val (key, _) = i
