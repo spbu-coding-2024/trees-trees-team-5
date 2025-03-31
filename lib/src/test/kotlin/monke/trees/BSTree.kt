@@ -1,7 +1,10 @@
 package monke.trees
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertThrows
 
 class BSTreeTest {
     private fun <K : Comparable<K>, V> compareTree(tree: BSTree<K, V>, expected: List<Pair<K, V>>): Boolean {
@@ -19,6 +22,19 @@ class BSTreeTest {
         val value = "Single value"
         tree.insert(1, value)
         assertEquals(value, tree[1])
+    }
+
+    @RepeatedTest(3)
+    fun `Search BST test`() {
+        val random = (1..10000).shuffled().take(1000)
+        val tree = BSTree<Int, Int>()
+        for (i in random) {
+            tree.insert(i, i)
+        }
+        val shuffledRandom = random.shuffled()
+        for (i in shuffledRandom) {
+            assertEquals(i, tree[i])
+        }
     }
 
     @Test

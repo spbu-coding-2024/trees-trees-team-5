@@ -1,7 +1,7 @@
 package monke.trees
 
 import monke.nodes.AVLNode
-import java.util.*
+import java.util.Stack
 import kotlin.math.max
 
 typealias Path<K, V> = Stack<AVLNode<K, V>>
