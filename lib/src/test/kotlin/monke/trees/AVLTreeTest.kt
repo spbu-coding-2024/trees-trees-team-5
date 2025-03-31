@@ -1,15 +1,19 @@
 package monke.trees
 
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD
+import kotlin.math.log2
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@TestInstance(PER_CLASS)
 internal class AVLTreeTest {
     private fun <K> defaultNodeValue(key: K): String = "value of $key"
 
@@ -40,6 +44,17 @@ internal class AVLTreeTest {
         }
 
         return firstTreeList.size == secondTreeList.size && firstTreeList.containsAll(secondTreeList)
+    }
+
+    @RepeatedTest(50)
+    fun `tree height is logarithmic`() {
+        val treeSize: Int = (1..100).random()
+        val generatedKeys: List<Int> = (-1000..1000).shuffled().take(treeSize)
+        val tree: AVLTree<Int, String> = treeBuilder(::defaultNodeValue, *generatedKeys.toTypedArray())
+
+        val maxAllowedHeight: Int = (1.44 * log2(treeSize.toDouble())).toInt() + 1
+
+        assertTrue(tree.getHeight() <= maxAllowedHeight)
     }
 
     @Nested
@@ -222,6 +237,16 @@ internal class AVLTreeTest {
 
                 assertEquals(expectedRootNodeInfo, tree.getRootNodeInfo())
                 assertEquals(expectedHeight, tree.getHeight())
+            }
+
+            @RepeatedTest(100)
+            fun `insert nodes with random keys`() {
+                val generatedKeys: List<Int> = (-10000..10000).shuffled().take(1000)
+                val tree: AVLTree<Int, String> = treeBuilder(::defaultNodeValue, *generatedKeys.toTypedArray())
+
+                generatedKeys.shuffled().forEach {
+                    assertEquals(defaultNodeValue(it), tree[it])
+                }
             }
         }
     }
