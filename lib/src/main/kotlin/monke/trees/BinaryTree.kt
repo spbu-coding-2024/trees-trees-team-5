@@ -22,6 +22,10 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     NodeArithmetic<K, V, N, T> {
     protected var rootNode: N? = null
 
+    /**
+     * Get `Pair` with root node key and value
+     * @return `Pair<K, V>?` pair of key and value of existing root node, else `null`
+     */
     fun getRootNodeInfo(): Pair<K, V>? {
         val root: N? = rootNode
         root?.let {

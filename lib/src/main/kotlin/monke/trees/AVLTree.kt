@@ -6,9 +6,25 @@ import kotlin.math.max
 
 typealias Path<K, V> = Stack<AVLNode<K, V>>
 
+/**
+ * AVL tree implementation
+ * @author Kharisov Bogdan
+ * @param K generic comparable type for key storage
+ * @param V generic type for value storage
+ */
 public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
+    /**
+     * Get tree height
+     * @return `Int` height of the tree
+     */
     fun getHeight(): Int = rootNode.getHeight()
 
+    /**
+     * Insert `AVLNode<K,V>` with key and value to the tree, then the tree is being balanced. If key already exists,
+     * `IllegalArgumentException` is thrown
+     * @param key key of inserted node
+     * @param value value, assigned to inserted node
+     */
     override fun insert(
         key: K,
         value: V,
@@ -27,7 +43,12 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         }
     }
 
-    override fun delete(key: K): V? {
+    /**
+     * Delete node from the tree with its key. If there is no node with such key, `NoSuchElementException` is thrown
+     * @param key key of deleted node
+     * @return value, assigned to deleted node
+     */
+    override fun delete(key: K): V {
         tailrec fun minKeyNode(node: AVLNode<K, V>): AVLNode<K, V> =
             if (node.leftChild == null) node else minKeyNode(node.leftChild as AVLNode<K, V>)
 
