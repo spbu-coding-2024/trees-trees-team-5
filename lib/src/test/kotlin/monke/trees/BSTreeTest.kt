@@ -1,7 +1,6 @@
 package monke.trees
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
@@ -64,7 +63,9 @@ class BSTreeTest {
         val value = "Test Value"
         tree.insert(1, value)
         assertEquals(value, tree.delete(1))
-        assertNull(tree[1])
+        assertThrows(NoSuchElementException::class.java) {
+            tree[1]
+        }
     }
 
     @Test
