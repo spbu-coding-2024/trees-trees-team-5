@@ -65,7 +65,7 @@ internal class AVLTreeTest {
         fun `get the node from empty tree`() {
             val getKey = 0
             val exceptionMessage: String? = assertFailsWith<NoSuchElementException> {
-                tree.search(getKey)
+                tree[getKey]
             }.message
             assertEquals(exceptionMessage, "Node with key $getKey does not exist yet")
         }
