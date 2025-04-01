@@ -96,20 +96,20 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
                         }
                         when {
                             (
-                                    parentNode?.color == RBTNode.Color.RED &&
-                                            uncleNode?.color == RBTNode.Color.BLACK &&
-                                            uncleNode.leftChild?.color == RBTNode.Color.BLACK &&
-                                            uncleNode.rightChild?.color == RBTNode.Color.BLACK
-                                    ) -> {
+                                parentNode?.color == RBTNode.Color.RED &&
+                                    uncleNode?.color == RBTNode.Color.BLACK &&
+                                    uncleNode.leftChild?.color == RBTNode.Color.BLACK &&
+                                    uncleNode.rightChild?.color == RBTNode.Color.BLACK
+                            ) -> {
                                 parentNode.color = RBTNode.Color.BLACK
                                 uncleNode.color = RBTNode.Color.RED
                             }
 
                             (
-                                    parentNode?.color == RBTNode.Color.RED &&
-                                            uncleNode?.color == RBTNode.Color.BLACK &&
-                                            uncleNode.leftChild?.color == RBTNode.Color.RED
-                                    ) -> {
+                                parentNode?.color == RBTNode.Color.RED &&
+                                    uncleNode?.color == RBTNode.Color.BLACK &&
+                                    uncleNode.leftChild?.color == RBTNode.Color.RED
+                            ) -> {
                                 uncleNode.leftChild?.color = RBTNode.Color.BLACK
                                 uncleNode.color = RBTNode.Color.RED
                                 parentNode.color = RBTNode.Color.BLACK
@@ -122,11 +122,11 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
                             }
 
                             (
-                                    parentNode?.color == RBTNode.Color.BLACK &&
-                                            uncleNode?.color == RBTNode.Color.RED &&
-                                            uncleNode.rightChild?.leftChild?.color == RBTNode.Color.BLACK &&
-                                            uncleNode.rightChild?.rightChild?.color == RBTNode.Color.BLACK
-                                    ) -> {
+                                parentNode?.color == RBTNode.Color.BLACK &&
+                                    uncleNode?.color == RBTNode.Color.RED &&
+                                    uncleNode.rightChild?.leftChild?.color == RBTNode.Color.BLACK &&
+                                    uncleNode.rightChild?.rightChild?.color == RBTNode.Color.BLACK
+                            ) -> {
                                 uncleNode.rightChild?.color = RBTNode.Color.RED
                                 uncleNode.color = RBTNode.Color.BLACK
                                 if (parentNode.leftChild == uncleNode) {
@@ -138,10 +138,10 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
                             }
 
                             (
-                                    parentNode?.color == RBTNode.Color.BLACK &&
-                                            uncleNode?.color == RBTNode.Color.RED &&
-                                            uncleNode.rightChild?.leftChild?.color == RBTNode.Color.RED
-                                    ) -> {
+                                parentNode?.color == RBTNode.Color.BLACK &&
+                                    uncleNode?.color == RBTNode.Color.RED &&
+                                    uncleNode.rightChild?.leftChild?.color == RBTNode.Color.RED
+                            ) -> {
                                 uncleNode.rightChild?.leftChild?.color = RBTNode.Color.BLACK
                                 if (parentNode.leftChild == uncleNode) {
                                     leftRotate(uncleNode, uncleNode.rightChild!!)
@@ -155,11 +155,11 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
                             }
 
                             (
-                                    parentNode?.color == RBTNode.Color.BLACK &&
-                                            uncleNode?.color == RBTNode.Color.BLACK &&
-                                            uncleNode.rightChild?.color == RBTNode.Color.BLACK &&
-                                            uncleNode.leftChild?.color == RBTNode.Color.BLACK
-                                    ) -> {
+                                parentNode?.color == RBTNode.Color.BLACK &&
+                                    uncleNode?.color == RBTNode.Color.BLACK &&
+                                    uncleNode.rightChild?.color == RBTNode.Color.BLACK &&
+                                    uncleNode.leftChild?.color == RBTNode.Color.BLACK
+                            ) -> {
                                 uncleNode.color = RBTNode.Color.RED
                                 balancingBeforeDelete(parentNode)
                                 return nodesValue
@@ -224,20 +224,20 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
 
         when {
             (
-                    parentNode?.color == RBTNode.Color.RED &&
-                            uncleNode?.color == RBTNode.Color.BLACK &&
-                            uncleNode.leftChild?.color == RBTNode.Color.BLACK &&
-                            uncleNode.rightChild?.color == RBTNode.Color.BLACK
-                    ) -> {
+                parentNode?.color == RBTNode.Color.RED &&
+                    uncleNode?.color == RBTNode.Color.BLACK &&
+                    uncleNode.leftChild?.color == RBTNode.Color.BLACK &&
+                    uncleNode.rightChild?.color == RBTNode.Color.BLACK
+            ) -> {
                 parentNode.color = RBTNode.Color.BLACK
                 uncleNode.color = RBTNode.Color.RED
             }
 
             (
-                    parentNode?.color == RBTNode.Color.RED &&
-                            uncleNode?.color == RBTNode.Color.BLACK &&
-                            uncleNode.leftChild?.color == RBTNode.Color.RED
-                    ) -> {
+                parentNode?.color == RBTNode.Color.RED &&
+                    uncleNode?.color == RBTNode.Color.BLACK &&
+                    uncleNode.leftChild?.color == RBTNode.Color.RED
+            ) -> {
                 uncleNode.leftChild?.color = RBTNode.Color.BLACK
                 uncleNode.color = RBTNode.Color.RED
                 parentNode.color = RBTNode.Color.BLACK
@@ -249,11 +249,11 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
             }
 
             (
-                    parentNode?.color == RBTNode.Color.BLACK &&
-                            uncleNode?.color == RBTNode.Color.RED &&
-                            uncleNode.rightChild?.leftChild?.color == RBTNode.Color.BLACK &&
-                            uncleNode.rightChild?.rightChild?.color == RBTNode.Color.BLACK
-                    ) -> {
+                parentNode?.color == RBTNode.Color.BLACK &&
+                    uncleNode?.color == RBTNode.Color.RED &&
+                    uncleNode.rightChild?.leftChild?.color == RBTNode.Color.BLACK &&
+                    uncleNode.rightChild?.rightChild?.color == RBTNode.Color.BLACK
+            ) -> {
                 uncleNode.rightChild?.color = RBTNode.Color.RED
                 uncleNode.color = RBTNode.Color.BLACK
                 if (parentNode.leftChild == uncleNode) {
@@ -264,10 +264,10 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
             }
 
             (
-                    parentNode?.color == RBTNode.Color.BLACK &&
-                            uncleNode?.color == RBTNode.Color.RED &&
-                            uncleNode.rightChild?.leftChild?.color == RBTNode.Color.RED
-                    ) -> {
+                parentNode?.color == RBTNode.Color.BLACK &&
+                    uncleNode?.color == RBTNode.Color.RED &&
+                    uncleNode.rightChild?.leftChild?.color == RBTNode.Color.RED
+            ) -> {
                 uncleNode.rightChild?.leftChild?.color = RBTNode.Color.BLACK
                 if (parentNode.leftChild == uncleNode) {
                     leftRotate(uncleNode, uncleNode.rightChild!!)
@@ -279,11 +279,11 @@ public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTr
             }
 
             (
-                    parentNode?.color == RBTNode.Color.BLACK &&
-                            uncleNode?.color == RBTNode.Color.BLACK &&
-                            uncleNode.rightChild?.color == RBTNode.Color.BLACK &&
-                            uncleNode.leftChild?.color == RBTNode.Color.BLACK
-                    ) -> {
+                parentNode?.color == RBTNode.Color.BLACK &&
+                    uncleNode?.color == RBTNode.Color.BLACK &&
+                    uncleNode.rightChild?.color == RBTNode.Color.BLACK &&
+                    uncleNode.leftChild?.color == RBTNode.Color.BLACK
+            ) -> {
                 uncleNode.color = RBTNode.Color.RED
                 balancingBeforeDelete(parentNode)
             }
