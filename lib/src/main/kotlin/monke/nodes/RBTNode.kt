@@ -1,4 +1,5 @@
 package monke.nodes
+
 /**
  * Red-Black Tree Search Node is used for RBT
  * It contains all necessary data to work with RBT
