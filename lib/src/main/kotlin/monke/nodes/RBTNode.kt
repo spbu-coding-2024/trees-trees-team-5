@@ -1,4 +1,4 @@
-package com.github.monke.nodes
+package monke.nodes
 
 public class RBTNode<K : Comparable<K>, V>(
     key: K,
