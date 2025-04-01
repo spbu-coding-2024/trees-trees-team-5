@@ -16,7 +16,10 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
      * @param key The unique key with which will be added value. Comparable type
      * @param value The value which assign to key.
      */
-    override fun insert(key: K, value: V) {
+    override fun insert(
+        key: K,
+        value: V,
+    ) {
         val node = BSTNode(key, value)
         if (rootNode == null) {
             rootNode = node
@@ -26,14 +29,14 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
         var currentNode = rootNode
         var parentNode = rootNode
         while (currentNode != null) {
-
             parentNode = currentNode
 
-            currentNode = when {
-                node.key < currentNode.key -> currentNode.leftChild
-                node.key > currentNode.key -> currentNode.rightChild
-                else -> throw IllegalArgumentException("Node with key $key already exists")
-            }
+            currentNode =
+                when {
+                    node.key < currentNode.key -> currentNode.leftChild
+                    node.key > currentNode.key -> currentNode.rightChild
+                    else -> throw IllegalArgumentException("Node with key $key already exists")
+                }
         }
 
         if (parentNode != null) {
@@ -43,7 +46,6 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
             }
         }
     }
-
 
     private fun getMaxSubTree(node: BSTNode<K, V>?): BSTNode<K, V>? {
         if (node == null) return null
@@ -60,8 +62,9 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
         while (parentNode != null) {
             when {
                 (node.key < parentNode.key && node != parentNode.leftChild) -> parentNode = parentNode.leftChild
-                (node.key > parentNode.key && node != parentNode.rightChild) -> parentNode =
-                    parentNode.rightChild
+                (node.key > parentNode.key && node != parentNode.rightChild) ->
+                    parentNode =
+                        parentNode.rightChild
 
                 (node == parentNode.leftChild || node == parentNode.rightChild) -> return parentNode
             }
@@ -69,7 +72,11 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
         return null
     }
 
-    private fun setChild(parentNode: BSTNode<K, V>?, node: BSTNode<K, V>?, newNode: BSTNode<K, V>?): Boolean {
+    private fun setChild(
+        parentNode: BSTNode<K, V>?,
+        node: BSTNode<K, V>?,
+        newNode: BSTNode<K, V>?,
+    ): Boolean {
         if (parentNode == null || node == null) {
             return false
         }
@@ -95,12 +102,10 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
                 val parentNode = searchParentNode(node)
 
                 setChild(parentNode, node, newNode)
-
             } else {
                 rootNode = newNode
             }
             return node.value
-
         } else {
             val maxLeftSubtreeNode = getMaxSubTree(node.leftChild) ?: return null
             this.delete(maxLeftSubtreeNode.key)
@@ -108,9 +113,9 @@ public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTr
 
             newNode.rightChild = node.rightChild
             newNode.leftChild = node.leftChild
-            if (node == rootNode)
+            if (node == rootNode) {
                 rootNode = newNode
-            else {
+            } else {
                 val parentNode = searchParentNode(node)
                 setChild(parentNode, node, newNode)
             }

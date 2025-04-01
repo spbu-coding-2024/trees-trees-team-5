@@ -5,7 +5,8 @@ import monke.trees.treeInterfaces.Delete
 import monke.trees.treeInterfaces.Insert
 import monke.trees.treeInterfaces.NodeArithmetic
 import monke.trees.treeInterfaces.Search
-import java.util.*
+import java.util.LinkedList
+import java.util.Queue
 
 /**
  * Abstract base class for all binary tree structs
@@ -19,9 +20,12 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     Insert<K, V, N>,
     Delete<K, V, N, T>,
     NodeArithmetic<K, V, N, T> {
-
     protected var rootNode: N? = null
 
+    /**
+     * Get `Pair` with root node key and value
+     * @return `Pair<K, V>?` pair of key and value of existing root node, else `null`
+     */
     fun getRootNodeInfo(): Pair<K, V>? {
         val root: N? = rootNode
         root?.let {
@@ -55,11 +59,12 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
     protected fun searchNode(key: K): N? {
         var currentNode: N? = rootNode
         while (currentNode != null) {
-            currentNode = when {
-                currentNode.key > key -> currentNode.leftChild
-                currentNode.key < key -> currentNode.rightChild
-                else -> return currentNode
-            }
+            currentNode =
+                when {
+                    currentNode.key > key -> currentNode.leftChild
+                    currentNode.key < key -> currentNode.rightChild
+                    else -> return currentNode
+                }
         }
         return null
     }
@@ -68,18 +73,14 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
      * Return iterator with a pair of key and value of every node. Use level-order traversal
      * @return `Iterator<Pair<K,V>>` for each node in the tree by level-order traversal
      */
-    operator fun iterator(): Iterator<Pair<K, V>> {
-        return BinaryTreeIterator()
-    }
+    operator fun iterator(): Iterator<Pair<K, V>> = BinaryTreeIterator()
 
     /**
      * Search for the value by key with get operator
      * @param key the key of node for search in tree
      * @return value if tree contains node with such key, else throws `NoSuchElementException`
      */
-    operator fun get(key: K): V? {
-        return this.search(key)
-    }
+    operator fun get(key: K): V? = this.search(key)
 
     /**
      * Insert another tree to this one by plus operation
@@ -110,9 +111,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
             }
         }
 
-        override fun hasNext(): Boolean {
-            return queue.isNotEmpty()
-        }
+        override fun hasNext(): Boolean = queue.isNotEmpty()
 
         override fun next(): Pair<K, V> {
             if (!hasNext()) throw NoSuchElementException()

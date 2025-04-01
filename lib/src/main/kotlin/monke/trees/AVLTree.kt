@@ -6,12 +6,29 @@ import kotlin.math.max
 
 typealias Path<K, V> = Stack<AVLNode<K, V>>
 
+/**
+ * AVL tree implementation
+ * @author Kharisov Bogdan
+ * @param K generic comparable type for key storage
+ * @param V generic type for value storage
+ */
 public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
-    fun getHeight(): Int {
-        return rootNode.getHeight()
-    }
+    /**
+     * Get tree height
+     * @return `Int` height of the tree
+     */
+    fun getHeight(): Int = rootNode.getHeight()
 
-    override fun insert(key: K, value: V) {
+    /**
+     * Insert `AVLNode<K,V>` with key and value to the tree, then the tree is being balanced. If key already exists,
+     * `IllegalArgumentException` is thrown
+     * @param key key of inserted node
+     * @param value value, assigned to inserted node
+     */
+    override fun insert(
+        key: K,
+        value: V,
+    ) {
         val insertedNode: AVLNode<K, V> = AVLNode(key, value)
         val path: Path<K, V>? = rootNode?.searchPath(key)
 
@@ -26,10 +43,14 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         }
     }
 
-    override fun delete(key: K): V? {
-        tailrec fun minKeyNode(node: AVLNode<K, V>): AVLNode<K, V> {
-            return if (node.leftChild == null) node else minKeyNode(node.leftChild as AVLNode<K, V>)
-        }
+    /**
+     * Delete node from the tree with its key. If there is no node with such key, `NoSuchElementException` is thrown
+     * @param key key of deleted node
+     * @return value, assigned to deleted node
+     */
+    override fun delete(key: K): V {
+        tailrec fun minKeyNode(node: AVLNode<K, V>): AVLNode<K, V> =
+            if (node.leftChild == null) node else minKeyNode(node.leftChild as AVLNode<K, V>)
 
         fun deleteMinKeyNode(node: AVLNode<K, V>): AVLNode<K, V>? {
             if (node.leftChild == null) {
@@ -76,17 +97,21 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
 
         while (currentNode != null) {
             path.push(currentNode)
-            currentNode = when {
-                key < currentNode.key -> currentNode.leftChild
-                key > currentNode.key -> currentNode.rightChild
-                else -> null
-            }
+            currentNode =
+                when {
+                    key < currentNode.key -> currentNode.leftChild
+                    key > currentNode.key -> currentNode.rightChild
+                    else -> null
+                }
         }
 
         return path
     }
 
-    private fun Path<K, V>.roadToRootNode(key: K, newNode: AVLNode<K, V>?) {
+    private fun Path<K, V>.roadToRootNode(
+        key: K,
+        newNode: AVLNode<K, V>?,
+    ) {
         var parentNode: AVLNode<K, V> = this.peek()
         if (key < parentNode.key) {
             parentNode.leftChild = newNode
@@ -108,20 +133,19 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         rootNode = rebalanced(currentNode)
     }
 
-    private fun AVLNode<K, V>?.getHeight(): Int {
-        return this?.height ?: 0
-    }
+    private fun AVLNode<K, V>?.getHeight(): Int = this?.height ?: 0
 
-    private fun balanceFactor(node: AVLNode<K, V>): Int {
-        return node.rightChild.getHeight() - node.leftChild.getHeight()
-    }
+    private fun balanceFactor(node: AVLNode<K, V>): Int = node.rightChild.getHeight() - node.leftChild.getHeight()
 
     private fun reheight(node: AVLNode<K, V>) {
         node.height = max(node.rightChild.getHeight(), node.leftChild.getHeight()) + 1
     }
 
     private fun rebalanced(node: AVLNode<K, V>): AVLNode<K, V> {
-        fun rotated(node: AVLNode<K, V>, left: Boolean): AVLNode<K, V> {
+        fun rotated(
+            node: AVLNode<K, V>,
+            left: Boolean,
+        ): AVLNode<K, V> {
             val successor = if (left) node.rightChild as AVLNode<K, V> else node.leftChild as AVLNode<K, V>
 
             if (left) {
@@ -137,6 +161,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         }
 
         fun rotatedRight(node: AVLNode<K, V>): AVLNode<K, V> = rotated(node, false)
+
         fun rotatedLeft(node: AVLNode<K, V>): AVLNode<K, V> = rotated(node, true)
 
         // balance logic

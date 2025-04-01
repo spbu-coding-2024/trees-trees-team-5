@@ -1,13 +1,15 @@
 package monke.trees
 
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.Test
 
 class BSTreeTest {
-    private fun <K : Comparable<K>, V> compareTree(tree: BSTree<K, V>, expected: List<Pair<K, V>>): Boolean {
+    private fun <K : Comparable<K>, V> compareTree(
+        tree: BSTree<K, V>,
+        expected: List<Pair<K, V>>,
+    ): Boolean {
         var idx = 0
         for (i in tree) {
             if (expected[idx] != i) return false
@@ -145,6 +147,5 @@ class BSTreeTest {
 
         assertEquals(true, compareTree(tree, expectedResultTree1))
         assertEquals(true, compareTree(tree2, expectedResultTree2))
-
     }
 }
