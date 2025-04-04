@@ -1,4 +1,4 @@
-<p align="center"><img src="https://i.imgur.com/ZNsaOXf.jpeg" height="258" alt="Monke pic" /> </p>
+<p align="center"><img src="https://i.imgur.com/j33EyeF.jpeg" height="258" alt="Monke pic" /> </p>
 <h1 align="center">MONKE</h1>
 <p align="center">Kotlin library providing simple interface to work with data for some types of binary trees</p>
 
