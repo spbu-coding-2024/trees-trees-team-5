@@ -13,7 +13,7 @@
 ## 🛠️ Quick Start
 
 ```kotlin
-import monke.trees
+import monke.trees.BSTree
 
 fun main() {
 
