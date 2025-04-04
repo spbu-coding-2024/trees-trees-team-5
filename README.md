@@ -36,7 +36,7 @@ fun main() {
 ### Get value by key
 
 ```kotlin
-import monke.trees
+import monke.trees.BSTree
 
 fun main() {
 
@@ -53,7 +53,7 @@ fun main() {
 #### Plus
 
 ```kotlin
-import monke.trees
+import monke.trees.BSTree
 
 fun main() {
     val tree1 = BSTree<Int, String>()
@@ -81,7 +81,7 @@ fun main() {
 #### Minus
 
 ```kotlin
-import monke.trees
+import monke.trees.BSTree
 
 fun main() {
     var tree1 = BSTree<Int, String>()
