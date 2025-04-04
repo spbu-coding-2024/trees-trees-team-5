@@ -84,6 +84,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
 
     /**
      * Insert another tree to this one by plus operation
+     * Inserting a tree with a node which has an existing key results in an error `IllegalArgumentException`. Ensure keys are unique before inserting.
      * @param other tree which nodes are inserted
      * @return this tree
      */
@@ -94,6 +95,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
 
     /**
      * Delete nodes of another trees from this one by minus operation
+     * As in addition, try to delete a tree with node which key does not exist in the tree throws an error `NoSuchElementException`.
      * @param other tree, which nodes are deleted
      * @return this tree
      */
