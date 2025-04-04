@@ -15,22 +15,47 @@ public class BSTNode<K : Comparable<K>, V>(
     key: K,
     value: V,
 ) : BinaryTreeNode<K, V, BSTNode<K, V>>(key, value) {
+    @Suppress("UNCHECKED_CAST")
+    private fun <V> deepCopyValue(value: V): V =
+        when (value) {
+            null -> null as V
+
+            is String, is Int, is Float, is Double,
+            is Boolean, is Long, is Short, is Byte,
+            is Char,
+            -> value
+            is List<*> -> value.toList() as V
+            is Set<*> -> value.toSet() as V
+            is Map<*, *> -> value.toMap() as V
+
+            is Cloneable ->
+                try {
+                    val method = value.javaClass.getMethod("clone")
+                    method.isAccessible = true
+                    method.invoke(value) as V
+                } catch (e: Exception) {
+                    value
+                }
+
+            else -> value
+        }
+
     /**
      * Copy method to node, which copy node and all it children.
      * @return `BSTNode<K,V>`
      */
     fun copy(): BSTNode<K, V> {
         val stack = Stack<Pair<BSTNode<K, V>, BSTNode<K, V>>>()
-        val copyNode = BSTNode(key, value)
+        val copyNode = BSTNode(key, deepCopyValue(value))
 
         this.leftChild?.let { leftChild ->
-            val copiedLeft = BSTNode(leftChild.key, leftChild.value)
+            val copiedLeft = BSTNode(leftChild.key, deepCopyValue(leftChild.value))
             copyNode.leftChild = copiedLeft
             stack.push(leftChild to copiedLeft)
         }
 
         this.rightChild?.let { rightChild ->
-            val copiedRight = BSTNode(rightChild.key, rightChild.value)
+            val copiedRight = BSTNode(rightChild.key, deepCopyValue(rightChild.value))
             copyNode.rightChild = copiedRight
             stack.push(rightChild to copiedRight)
         }
@@ -39,13 +64,13 @@ public class BSTNode<K : Comparable<K>, V>(
             val (originalNode, copiedNode) = stack.pop()
 
             originalNode.leftChild?.let { leftChild ->
-                val copiedLeft = BSTNode(leftChild.key, leftChild.value)
+                val copiedLeft = BSTNode(leftChild.key, deepCopyValue(leftChild.value))
                 copiedNode.leftChild = copiedLeft
                 stack.push(leftChild to copiedLeft)
             }
 
             originalNode.rightChild?.let { rightChild ->
-                val copiedRight = BSTNode(rightChild.key, rightChild.value)
+                val copiedRight = BSTNode(rightChild.key, deepCopyValue(rightChild.value))
                 copiedNode.rightChild = copiedRight
                 stack.push(rightChild to copiedRight)
             }

@@ -80,7 +80,7 @@ abstract class BinaryTree<K : Comparable<K>, V, N : BinaryTreeNode<K, V, N>, T :
      * @param key the key of node for search in tree
      * @return value if tree contains node with such key, else throws `NoSuchElementException`
      */
-    operator fun get(key: K): V? = this.search(key)
+    operator fun get(key: K): V = this.search(key)
 
     /**
      * Insert another tree to this one by plus operation
