@@ -150,17 +150,19 @@ class BSTreeTest {
     }
 
     @Test
-    fun `Copy BST test with mutable value`(){
+    fun `Copy BST test with mutable value`() {
         val tree1 = BSTree<Int, MutableList<Int>>()
-        tree1.insert(1, mutableListOf(1,2,3))
-        val expectedResultTree1 = listOf(Pair(1, mutableListOf(1,2,3)))
-        val expectedResultTree2 = listOf(Pair(1, mutableListOf(1,2,3,4)))
+
+        tree1.insert(1, mutableListOf(1, 2, 3))
+
+        val expectedResultTree1 = listOf(Pair(1, mutableListOf(1, 2, 3)))
+        val expectedResultTree2 = listOf(Pair(1, mutableListOf(1, 2, 3, 4)))
+
         val tree2 = tree1.copy()
 
         tree2[1].add(4)
 
         assertEquals(true, compareTree(tree1, expectedResultTree1))
         assertEquals(true, compareTree(tree2, expectedResultTree2))
-
     }
 }

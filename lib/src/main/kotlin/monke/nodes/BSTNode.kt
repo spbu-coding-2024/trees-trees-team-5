@@ -15,30 +15,31 @@ public class BSTNode<K : Comparable<K>, V>(
     key: K,
     value: V,
 ) : BinaryTreeNode<K, V, BSTNode<K, V>>(key, value) {
-
     @Suppress("UNCHECKED_CAST")
-    private fun <V> deepCopyValue(value: V): V {
-        return when (value) {
+    private fun <V> deepCopyValue(value: V): V =
+        when (value) {
             null -> null as V
 
             is String, is Int, is Float, is Double,
             is Boolean, is Long, is Short, is Byte,
-            is Char -> value
+            is Char,
+            -> value
             is List<*> -> value.toList() as V
             is Set<*> -> value.toSet() as V
             is Map<*, *> -> value.toMap() as V
 
-            is Cloneable -> try {
-                val method = value.javaClass.getMethod("clone")
-                method.isAccessible = true
-                method.invoke(value) as V
-            } catch (e: Exception) {
-                value
-            }
+            is Cloneable ->
+                try {
+                    val method = value.javaClass.getMethod("clone")
+                    method.isAccessible = true
+                    method.invoke(value) as V
+                } catch (e: Exception) {
+                    value
+                }
 
             else -> value
         }
-    }
+
     /**
      * Copy method to node, which copy node and all it children.
      * @return `BSTNode<K,V>`
