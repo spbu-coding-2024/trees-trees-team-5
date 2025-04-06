@@ -37,9 +37,8 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         } else {
             if (path.peek().key == key) {
                 throw IllegalArgumentException("Node with key $key already exists")
-            } else {
-                path.roadToRootNode(key, insertedNode)
             }
+            path.roadToRootNode(key, insertedNode)
         }
     }
 
@@ -53,42 +52,41 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
             if (node.leftChild == null) node else minKeyNode(node.leftChild as AVLNode<K, V>)
 
         fun deleteMinKeyNode(node: AVLNode<K, V>): AVLNode<K, V>? {
-            if (node.leftChild == null) {
-                return node.rightChild
+            node.leftChild?.let {
+                node.leftChild = deleteMinKeyNode(node.leftChild as AVLNode<K, V>)
+                return rebalanced(node)
             }
-            node.leftChild = deleteMinKeyNode(node.leftChild as AVLNode<K, V>)
-            return rebalanced(node)
+            return node.rightChild
         }
 
         // delete logic
-        val path: Path<K, V>? = rootNode?.searchPath(key)
-        if (path == null) {
+        val path: Path<K, V> =
+            rootNode?.searchPath(key)
+                ?: throw NoSuchElementException("Node with key $key does not exist yet")
+        val deletedNode: AVLNode<K, V> = path.pop()
+        if (deletedNode.key != key) {
             throw NoSuchElementException("Node with key $key does not exist yet")
-        } else {
-            val deletedNode: AVLNode<K, V> = path.pop()
-            if (deletedNode.key != key) {
-                throw NoSuchElementException("Node with key $key does not exist yet")
-            } else if (path.isEmpty()) {
-                rootNode = null
-                return deletedNode.value
-            }
-
-            val lChild: AVLNode<K, V>? = deletedNode.leftChild
-            val rChild: AVLNode<K, V>? = deletedNode.rightChild
-            var replacingNode: AVLNode<K, V>?
-
-            if (rChild == null) {
-                replacingNode = lChild
-            } else {
-                replacingNode = minKeyNode(rChild)
-                replacingNode.rightChild = deleteMinKeyNode(rChild)
-                replacingNode.leftChild = lChild
-                replacingNode = rebalanced(replacingNode)
-            }
-
-            path.roadToRootNode(key, replacingNode)
+        }
+        if (path.isEmpty()) {
+            rootNode = null
             return deletedNode.value
         }
+
+        val lChild: AVLNode<K, V>? = deletedNode.leftChild
+        val rChild: AVLNode<K, V>? = deletedNode.rightChild
+        var replacingNode: AVLNode<K, V>?
+
+        if (rChild == null) {
+            replacingNode = lChild
+        } else {
+            replacingNode = minKeyNode(rChild)
+            replacingNode.rightChild = deleteMinKeyNode(rChild)
+            replacingNode.leftChild = lChild
+            replacingNode = rebalanced(replacingNode)
+        }
+
+        path.roadToRootNode(key, replacingNode)
+        return deletedNode.value
     }
 
     private fun AVLNode<K, V>.searchPath(key: K): Path<K, V> {
@@ -169,16 +167,20 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         when (balanceFactor(node)) {
             2 -> {
                 val rChild: AVLNode<K, V>? = node.rightChild
-                if (rChild != null && balanceFactor(rChild) < 0) {
-                    node.rightChild = rotatedRight(rChild)
+                rChild?.let {
+                    if (balanceFactor(rChild) < 0) {
+                        node.rightChild = rotatedRight(rChild)
+                    }
                 }
                 return rotatedLeft(node)
             }
 
             -2 -> {
                 val lChild: AVLNode<K, V>? = node.leftChild
-                if (lChild != null && balanceFactor(lChild) > 0) {
-                    node.leftChild = rotatedLeft(lChild)
+                lChild?.let {
+                    if (balanceFactor(lChild) > 0) {
+                        node.leftChild = rotatedLeft(lChild)
+                    }
                 }
                 return rotatedRight(node)
             }
