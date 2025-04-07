@@ -17,6 +17,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
      * Get tree height
      * @return `Int` height of the tree
      */
+
     fun getHeight(): Int = rootNode.getHeight()
 
     /**
@@ -67,10 +68,6 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         if (deletedNode.key != key) {
             throw NoSuchElementException("Node with key $key does not exist yet")
         }
-        if (path.isEmpty()) {
-            rootNode = null
-            return deletedNode.value
-        }
 
         val lChild: AVLNode<K, V>? = deletedNode.leftChild
         val rChild: AVLNode<K, V>? = deletedNode.rightChild
@@ -85,7 +82,12 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
             replacingNode = rebalanced(replacingNode)
         }
 
-        path.roadToRootNode(key, replacingNode)
+        if (path.isEmpty()) {
+            rootNode = replacingNode
+        } else {
+            path.roadToRootNode(key, replacingNode)
+        }
+
         return deletedNode.value
     }
 
@@ -133,7 +135,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
 
     private fun AVLNode<K, V>?.getHeight(): Int = this?.height ?: 0
 
-    private fun balanceFactor(node: AVLNode<K, V>): Int = node.rightChild.getHeight() - node.leftChild.getHeight()
+    private fun AVLNode<K, V>.getBalanceFactor(): Int = this.rightChild.getHeight() - this.leftChild.getHeight()
 
     private fun reheight(node: AVLNode<K, V>) {
         node.height = max(node.rightChild.getHeight(), node.leftChild.getHeight()) + 1
@@ -163,22 +165,24 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         fun rotatedLeft(node: AVLNode<K, V>): AVLNode<K, V> = rotated(node, true)
 
         // balance logic
+        val rightHeavy = 2
+        val leftHeavy = -2
         reheight(node)
-        when (balanceFactor(node)) {
-            2 -> {
+        when (node.getBalanceFactor()) {
+            rightHeavy -> {
                 val rChild: AVLNode<K, V>? = node.rightChild
                 rChild?.let {
-                    if (balanceFactor(rChild) < 0) {
+                    if (rChild.getBalanceFactor() < 0) {
                         node.rightChild = rotatedRight(rChild)
                     }
                 }
                 return rotatedLeft(node)
             }
 
-            -2 -> {
+            leftHeavy -> {
                 val lChild: AVLNode<K, V>? = node.leftChild
                 lChild?.let {
-                    if (balanceFactor(lChild) > 0) {
+                    if (lChild.getBalanceFactor() > 0) {
                         node.leftChild = rotatedLeft(lChild)
                     }
                 }
