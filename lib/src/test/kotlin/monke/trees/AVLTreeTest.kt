@@ -48,11 +48,12 @@ internal class AVLTreeTest {
 
     @RepeatedTest(50)
     fun `tree height is logarithmic`() {
+        val maxHeightConstant = 1.44
         val treeSize: Int = (1..100).random()
         val generatedKeys: List<Int> = (-1000..1000).shuffled().take(treeSize)
         val tree: AVLTree<Int, String> = treeBuilder(::defaultNodeValue, *generatedKeys.toTypedArray())
 
-        val maxAllowedHeight: Int = (1.44 * log2(treeSize.toDouble())).toInt() + 1
+        val maxAllowedHeight: Int = (maxHeightConstant * log2(treeSize.toDouble())).toInt() + 1
 
         assertTrue(tree.getHeight() <= maxAllowedHeight)
     }
@@ -411,6 +412,27 @@ internal class AVLTreeTest {
                     assertTrue(areSimilarTrees(expectedTree, tree))
                     assertEquals(expectedHeight, tree.getHeight())
                 }
+            }
+
+            @Test
+            fun `delete node with right child having left subtree`() {
+                val deleteKey = 50
+                val firstKey = 30
+                val secondKey = 70
+                val thirdKey = 60
+                val fourthKey = 80
+                val tree = treeBuilder(::defaultNodeValue, deleteKey, firstKey, secondKey, thirdKey, fourthKey)
+                val oldHeight = 3
+
+                tree.delete(deleteKey)
+
+                val expectedTree: AVLTree<Int, String> = treeBuilder(::defaultNodeValue, thirdKey, firstKey, secondKey, fourthKey)
+                val expectedRootNodeInfo: Pair<Int, String> = Pair(thirdKey, defaultNodeValue(thirdKey))
+                val expectedHeight: Int = oldHeight
+
+                assertTrue(areSimilarTrees(expectedTree, tree))
+                assertEquals(expectedRootNodeInfo, tree.getRootNodeInfo())
+                assertEquals(expectedHeight, tree.getHeight())
             }
         }
     }
