@@ -17,6 +17,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
      * Get tree height
      * @return `Int` height of the tree
      */
+
     fun getHeight(): Int = rootNode.getHeight()
 
     /**
@@ -37,9 +38,8 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         } else {
             if (path.peek().key == key) {
                 throw IllegalArgumentException("Node with key $key already exists")
-            } else {
-                path.roadToRootNode(key, insertedNode)
             }
+            path.roadToRootNode(key, insertedNode)
         }
     }
 
@@ -53,42 +53,42 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
             if (node.leftChild == null) node else minKeyNode(node.leftChild as AVLNode<K, V>)
 
         fun deleteMinKeyNode(node: AVLNode<K, V>): AVLNode<K, V>? {
-            if (node.leftChild == null) {
-                return node.rightChild
+            node.leftChild?.let {
+                node.leftChild = deleteMinKeyNode(node.leftChild as AVLNode<K, V>)
+                return rebalanced(node)
             }
-            node.leftChild = deleteMinKeyNode(node.leftChild as AVLNode<K, V>)
-            return rebalanced(node)
+            return node.rightChild
         }
 
         // delete logic
-        val path: Path<K, V>? = rootNode?.searchPath(key)
-        if (path == null) {
+        val path: Path<K, V> =
+            rootNode?.searchPath(key)
+                ?: throw NoSuchElementException("Node with key $key does not exist yet")
+        val deletedNode: AVLNode<K, V> = path.pop()
+        if (deletedNode.key != key) {
             throw NoSuchElementException("Node with key $key does not exist yet")
-        } else {
-            val deletedNode: AVLNode<K, V> = path.pop()
-            if (deletedNode.key != key) {
-                throw NoSuchElementException("Node with key $key does not exist yet")
-            } else if (path.isEmpty()) {
-                rootNode = null
-                return deletedNode.value
-            }
-
-            val lChild: AVLNode<K, V>? = deletedNode.leftChild
-            val rChild: AVLNode<K, V>? = deletedNode.rightChild
-            var replacingNode: AVLNode<K, V>?
-
-            if (rChild == null) {
-                replacingNode = lChild
-            } else {
-                replacingNode = minKeyNode(rChild)
-                replacingNode.rightChild = deleteMinKeyNode(rChild)
-                replacingNode.leftChild = lChild
-                replacingNode = rebalanced(replacingNode)
-            }
-
-            path.roadToRootNode(key, replacingNode)
-            return deletedNode.value
         }
+
+        val lChild: AVLNode<K, V>? = deletedNode.leftChild
+        val rChild: AVLNode<K, V>? = deletedNode.rightChild
+        var replacingNode: AVLNode<K, V>?
+
+        if (rChild == null) {
+            replacingNode = lChild
+        } else {
+            replacingNode = minKeyNode(rChild)
+            replacingNode.rightChild = deleteMinKeyNode(rChild)
+            replacingNode.leftChild = lChild
+            replacingNode = rebalanced(replacingNode)
+        }
+
+        if (path.isEmpty()) {
+            rootNode = replacingNode
+        } else {
+            path.roadToRootNode(key, replacingNode)
+        }
+
+        return deletedNode.value
     }
 
     private fun AVLNode<K, V>.searchPath(key: K): Path<K, V> {
@@ -135,7 +135,7 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
 
     private fun AVLNode<K, V>?.getHeight(): Int = this?.height ?: 0
 
-    private fun balanceFactor(node: AVLNode<K, V>): Int = node.rightChild.getHeight() - node.leftChild.getHeight()
+    private fun AVLNode<K, V>.getBalanceFactor(): Int = this.rightChild.getHeight() - this.leftChild.getHeight()
 
     private fun reheight(node: AVLNode<K, V>) {
         node.height = max(node.rightChild.getHeight(), node.leftChild.getHeight()) + 1
@@ -165,20 +165,26 @@ public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVL
         fun rotatedLeft(node: AVLNode<K, V>): AVLNode<K, V> = rotated(node, true)
 
         // balance logic
+        val rightHeavy = 2
+        val leftHeavy = -2
         reheight(node)
-        when (balanceFactor(node)) {
-            2 -> {
+        when (node.getBalanceFactor()) {
+            rightHeavy -> {
                 val rChild: AVLNode<K, V>? = node.rightChild
-                if (rChild != null && balanceFactor(rChild) < 0) {
-                    node.rightChild = rotatedRight(rChild)
+                rChild?.let {
+                    if (rChild.getBalanceFactor() < 0) {
+                        node.rightChild = rotatedRight(rChild)
+                    }
                 }
                 return rotatedLeft(node)
             }
 
-            -2 -> {
+            leftHeavy -> {
                 val lChild: AVLNode<K, V>? = node.leftChild
-                if (lChild != null && balanceFactor(lChild) > 0) {
-                    node.leftChild = rotatedLeft(lChild)
+                lChild?.let {
+                    if (lChild.getBalanceFactor() > 0) {
+                        node.leftChild = rotatedLeft(lChild)
+                    }
                 }
                 return rotatedRight(node)
             }
