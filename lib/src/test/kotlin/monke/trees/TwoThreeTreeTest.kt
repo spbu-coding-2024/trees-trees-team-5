@@ -1,11 +1,12 @@
 package monke.trees
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.TreeMap
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class TwoThreeTreeTest {
-
     @Test
     fun `insert and search single element`() {
         val tree = TwoThreeTree<Int, String>()
@@ -62,7 +63,6 @@ class TwoThreeTreeTest {
             ref[it] = it
         }
 
-        // проверим, что все значения совпадают
         ref.forEach { (k, v) ->
             assertEquals(v, tree.search(k))
         }
