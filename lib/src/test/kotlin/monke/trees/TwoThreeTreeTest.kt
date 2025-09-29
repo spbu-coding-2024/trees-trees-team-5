@@ -1,0 +1,79 @@
+package monke.trees
+
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import java.util.*
+
+class TwoThreeTreeTest {
+
+    @Test
+    fun `insert and search single element`() {
+        val tree = TwoThreeTree<Int, String>()
+        assertNull(tree.search(10))
+
+        tree.insert(10, "a")
+        assertEquals("a", tree.search(10))
+        assertEquals(1, tree.size)
+    }
+
+    @Test
+    fun `insert multiple elements and preserve order`() {
+        val tree = TwoThreeTree<Int, String>()
+        val values = (1..10).shuffled()
+        values.forEach { tree.insert(it, "val$it") }
+
+        (1..10).forEach {
+            assertEquals("val$it", tree.search(it))
+        }
+        assertEquals(10, tree.size)
+    }
+
+    @Test
+    fun `delete leaf element`() {
+        val tree = TwoThreeTree<Int, String>()
+        tree.insert(1, "one")
+        tree.insert(2, "two")
+        tree.insert(3, "three")
+
+        val removed = tree.delete(3)
+        assertEquals("three", removed)
+        assertNull(tree.search(3))
+        assertEquals(2, tree.size)
+    }
+
+    @Test
+    fun `delete internal node element`() {
+        val tree = TwoThreeTree<Int, String>()
+        (1..5).forEach { tree.insert(it, "val$it") }
+
+        val removed = tree.delete(3)
+        assertEquals("val3", removed)
+        assertNull(tree.search(3))
+        assertEquals(4, tree.size)
+    }
+
+    @Test
+    fun `insert and delete sequence like TreeMap`() {
+        val tree = TwoThreeTree<Int, Int>()
+        val ref = TreeMap<Int, Int>()
+
+        (1..50).shuffled().forEach {
+            tree.insert(it, it)
+            ref[it] = it
+        }
+
+        // проверим, что все значения совпадают
+        ref.forEach { (k, v) ->
+            assertEquals(v, tree.search(k))
+        }
+
+        (1..50).shuffled().forEach {
+            val deleted = tree.delete(it)
+            val expected = ref.remove(it)
+            assertEquals(expected, deleted)
+        }
+
+        assertEquals(0, tree.size)
+        assertTrue(ref.isEmpty())
+    }
+}
