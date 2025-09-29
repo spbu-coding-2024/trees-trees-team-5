@@ -1,10 +1,8 @@
 package monke.trees
 
 import org.junit.jupiter.api.Test
-import java.util.TreeMap
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class TwoThreeTreeTest {
     @Test
@@ -41,6 +39,7 @@ class TwoThreeTreeTest {
         assertNull(tree.search(3))
         assertEquals(2, tree.size)
     }
+
     @Test
     fun `delete internal node element`() {
         val tree = TwoThreeTree<Int, String>()
@@ -51,5 +50,4 @@ class TwoThreeTreeTest {
         assertNull(tree.search(3))
         assertEquals(4, tree.size)
     }
-
 }
