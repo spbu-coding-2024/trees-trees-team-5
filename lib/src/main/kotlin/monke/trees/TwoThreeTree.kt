@@ -126,6 +126,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         key: K,
     ): TwoThreeTreeNode<K, V> {
         val listOfKey = node.entries
+        require(node.children.size == listOfKey.size + 1) { "Invalid children count" }
         return when (listOfKey.size) {
             1 -> if (key < listOfKey[0].key) node.children[0] else node.children[1]
             2 ->
@@ -298,6 +299,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
     ) {
         leftSibling.entries.add(parent.entries[index - 1])
         leftSibling.entries.addAll(node.entries)
+        leftSibling.entries.sortBy { it.key }
         leftSibling.children.addAll(node.children)
         node.children.forEach { it.parent = leftSibling }
 
@@ -313,8 +315,9 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         parent: TwoThreeTreeNode<K, V>,
         index: Int,
     ) {
-        node.entries.add(parent.entries[index])
+        node.entries.add(0, parent.entries[index])
         node.entries.addAll(rightSibling.entries)
+        node.entries.sortBy { it.key }
         node.children.addAll(rightSibling.children)
         rightSibling.children.forEach { it.parent = node }
 
