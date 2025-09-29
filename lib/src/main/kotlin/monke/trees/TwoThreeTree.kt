@@ -92,14 +92,14 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         }
 
         val index = node.entries.indexOfFirst { it.key == key }
-        val leftChild = node.children[index]
-        var replacementNode = leftChild
+        val rightChild = node.children[index]
+        var replacementNode = rightChild
 
         while (!replacementNode.isLeaf) {
-            replacementNode = replacementNode.children.last()
+            replacementNode = replacementNode.children.first()
         }
 
-        val replacementEntry = replacementNode.entries.last()
+        val replacementEntry = replacementNode.entries.first()
 
         node.entries[index] = Entry(replacementEntry.key, replacementEntry.value)
 
@@ -280,7 +280,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         val borrowEntry = rightSibling.entries.removeAt(0)
         val parentEntry = parent.entries[index]
 
-        node.entries.add(parentEntry)
+        node.entries.add(0, parentEntry)
         parent.entries[index] = borrowEntry
 
         if (rightSibling.children.isNotEmpty()) {
