@@ -61,6 +61,12 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
             node = chooseChild(node, key)
         }
 
+        val exsistingIndex = node.entries.indexOfFirst { it.key == key }
+        if (exsistingIndex != -1) {
+            node.entries[exsistingIndex].value = value
+            return value
+        }
+
         insertEntryInNode(node, Entry(key, value))
         size++
 
@@ -92,14 +98,14 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         }
 
         val index = node.entries.indexOfFirst { it.key == key }
-        val rightChild = node.children[index]
-        var replacementNode = rightChild
+        val leftChild = node.children[index]
+        var replacementNode = leftChild
 
         while (!replacementNode.isLeaf) {
-            replacementNode = replacementNode.children.first()
+            replacementNode = replacementNode.children.last()
         }
 
-        val replacementEntry = replacementNode.entries.first()
+        val replacementEntry = replacementNode.entries.last()
 
         node.entries[index] = Entry(replacementEntry.key, replacementEntry.value)
 
@@ -132,8 +138,8 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
             2 ->
                 when {
                     key < listOfKey[0].key -> node.children[0]
-                    key > listOfKey[1].key -> node.children[2]
-                    else -> node.children[1]
+                    key < listOfKey[1].key -> node.children[1]
+                    else -> node.children[2]
                 }
             else -> throw IllegalArgumentException("incorrect number of key in node")
         }
@@ -299,7 +305,6 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
     ) {
         leftSibling.entries.add(parent.entries[index - 1])
         leftSibling.entries.addAll(node.entries)
-        leftSibling.entries.sortBy { it.key }
         leftSibling.children.addAll(node.children)
         node.children.forEach { it.parent = leftSibling }
 
@@ -317,7 +322,6 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
     ) {
         node.entries.add(0, parent.entries[index])
         node.entries.addAll(rightSibling.entries)
-        node.entries.sortBy { it.key }
         node.children.addAll(rightSibling.children)
         rightSibling.children.forEach { it.parent = node }
 
