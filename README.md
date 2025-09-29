@@ -9,6 +9,7 @@
 * Binary Search Tree
 * AVL Tree
 * Red-Black Tree
+* Two-Three Tree
 
 ## 🛠️ Quick Start
 
