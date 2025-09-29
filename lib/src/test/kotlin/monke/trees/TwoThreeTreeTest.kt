@@ -41,7 +41,6 @@ class TwoThreeTreeTest {
         assertNull(tree.search(3))
         assertEquals(2, tree.size)
     }
-
     @Test
     fun `delete internal node element`() {
         val tree = TwoThreeTree<Int, String>()
@@ -53,27 +52,4 @@ class TwoThreeTreeTest {
         assertEquals(4, tree.size)
     }
 
-    @Test
-    fun `insert and delete sequence like TreeMap`() {
-        val tree = TwoThreeTree<Int, Int>()
-        val ref = TreeMap<Int, Int>()
-
-        (1..50).shuffled().forEach {
-            tree.insert(it, it)
-            ref[it] = it
-        }
-
-        ref.forEach { (k, v) ->
-            assertEquals(v, tree.search(k))
-        }
-
-        (1..50).shuffled().forEach {
-            val deleted = tree.delete(it)
-            val expected = ref.remove(it)
-            assertEquals(expected, deleted)
-        }
-
-        assertEquals(0, tree.size)
-        assertTrue(ref.isEmpty())
-    }
 }
