@@ -7,7 +7,7 @@ data class Entry<K : Comparable<K>, V>(
 public class TwoThreeTreeNode<K : Comparable<K>, V> (
     val entries: MutableList<Entry<K, V>> = mutableListOf(),
     val children: MutableList<TwoThreeTreeNode<K, V>> = mutableListOf(),
-    var paretn: TwoThreeTreeNode<K,V>? = null
+    var parent: TwoThreeTreeNode<K,V>? = null
 ) {
     val isLeaf : Boolean
         get() = children.isEmpty()

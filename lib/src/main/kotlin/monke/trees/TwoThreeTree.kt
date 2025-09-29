@@ -3,17 +3,46 @@ package monke.trees
 import monke.nodes.Entry
 import monke.nodes.TwoThreeTreeNode
 import monke.trees.treeInterfaces.BTree
-
+/**
+ * Implementation of a 2-3 Tree data structure.
+ *
+ * A 2-3 Tree is a balanced search tree where every internal node
+ * can contain either one key (2-node) or two keys (3-node), and
+ * accordingly has 2 or 3 children. The tree guarantees logarithmic
+ * time complexity for search, insertion, and deletion operations.
+ *
+ * @param K the type of keys, must implement [Comparable]
+ * @param V the type of values stored in the tree
+ */
 public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V>{
-
+    /**
+     * Current root of the tree, or `null` if the tree is empty.
+     */
     protected var root: TwoThreeTreeNode<K, V>? = null
+    /**
+     * Number of key-value pairs currently stored in the tree.
+     */
     var size = 0
         private set
-
+    /**
+     * Searches for a value by the given [key].
+     *
+     * @param key the key to search for
+     * @return the value associated with the key, or `null` if not found
+     */
     override fun search(key: K) : V?{
         return getRecursive(root, key)
     }
-
+    /**
+     * Inserts a new key-value pair into the tree.
+     *
+     * If the key already exists, its value will be replaced.
+     * Splitting is performed automatically when nodes overflow.
+     *
+     * @param key the key to insert
+     * @param value the value to associate with the key
+     * @return the value that was inserted
+     */
     override fun insert(key: K, value: V): V?{
 
         if(root == null){
@@ -38,7 +67,15 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V>{
         }
         return value
     }
-
+    /**
+     * Deletes a key (and its associated value) from the tree.
+     *
+     * Balancing is performed automatically (borrowing or merging)
+     * if a node underflows.
+     *
+     * @param key the key to delete
+     * @return the value that was removed, or `null` if the key was not found
+     */
     override fun delete(key: K): V? {
         val node = findNode(root, key) ?: return null
 
