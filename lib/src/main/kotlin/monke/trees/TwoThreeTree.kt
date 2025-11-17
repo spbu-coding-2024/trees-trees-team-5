@@ -95,23 +95,25 @@ public class TwoThreeTree<K : Comparable<K>, V> : BaseMultiwayArithmeticTree<K, 
         }
 
         val index = node.entries.indexOfFirst { it.key == key }
-        val leftChild = node.children[index]
-        var replacementNode = leftChild
+        var successorNode = node.children[index + 1]
 
-        while (!replacementNode.isLeaf) {
-            replacementNode = replacementNode.children.last()
+        while (!successorNode.isLeaf) {
+            successorNode = successorNode.children.first()
         }
 
-        val replacementEntry = replacementNode.entries.last()
+        val successorEntry = successorNode.entries.first()
+        val oldValue = node.entries[index].value
 
-        node.entries[index] = Entry(replacementEntry.key, replacementEntry.value)
+        node.entries[index] = Entry(successorEntry.key, successorEntry.value)
 
-        removeEntry(replacementNode, replacementEntry.key)
-        fixUnderFlow(replacementNode)
+        removeEntry(successorNode, successorEntry.key)
+        fixUnderFlow(successorNode)
+
         size--
-
-        return replacementEntry.value
+        return oldValue
     }
+
+    override fun createInstance(): TwoThreeTree<K, V> = TwoThreeTree()
 
     override fun iterator(): Iterator<Pair<K, V>> =
         object : Iterator<Pair<K, V>> {
