@@ -10,7 +10,7 @@ abstract class BaseBinaryArithmeticTree<
     V,
     N : BinaryTreeNode<K, V, N>,
     T : BaseBinaryArithmeticTree<K, V, N, T>,
-> : ArithmeticTree<K, V, T> {
+    > : ArithmeticTree<K, V, T> {
     protected var rootNode: N? = null
 
     override operator fun plus(other: T): T {
