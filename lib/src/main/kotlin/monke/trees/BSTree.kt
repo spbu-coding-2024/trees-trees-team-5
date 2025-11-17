@@ -8,7 +8,8 @@ import monke.nodes.BSTNode
  * @param K Universal comparable type for key storage
  * @param V Universal type for value storage
  */
-public class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTNode<K, V>, BSTree<K, V>>() {
+public class BSTree<K : Comparable<K>, V> :
+    BaseBinaryArithmeticTree<K, V, BSTNode<K, V>, BSTree<K, V>>()  {
     /**
      * Insert `BSTNode<K,V>` in the tree by key and value
      * If key is exist it will throw an error `IllegalArgumentException`

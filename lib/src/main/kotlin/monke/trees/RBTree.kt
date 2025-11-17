@@ -10,7 +10,8 @@ import java.util.Stack
  * @param V generic type for value storage
  */
 
-public class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTNode<K, V>, RBTree<K, V>>() {
+public class RBTree<K : Comparable<K>, V>
+    : BaseBinaryArithmeticTree<K, V, RBTNode<K, V>, RBTree<K, V>>() {
     /**
      * Insert `RBTNode<K,V>` in the tree by key and value
      * If key is exist it will throw an error `IllegalArgumentException`

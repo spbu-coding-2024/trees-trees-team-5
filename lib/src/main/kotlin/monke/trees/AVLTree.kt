@@ -12,7 +12,9 @@ typealias Path<K, V> = Stack<AVLNode<K, V>>
  * @param K generic comparable type for key storage
  * @param V generic type for value storage
  */
-public class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
+public class AVLTree<K : Comparable<K>, V>
+    : BaseBinaryArithmeticTree<K, V, AVLNode<K, V>, AVLTree<K, V>>() {
+
     /**
      * Get tree height
      * @return `Int` height of the tree
