@@ -1,12 +1,12 @@
 package monke.trees.treeInterfaces
 
-interface BTree<K : Comparable<K>, V> {
-    fun search(key: K): V?
-
+interface Tree<K : Comparable<K>, V> : Iterable<Pair<K, V>> {
     fun insert(
         key: K,
         value: V,
-    ): V?
+    )
 
     fun delete(key: K): V?
+
+    fun search(key: K): V?
 }

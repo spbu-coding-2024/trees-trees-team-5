@@ -2,7 +2,6 @@ package monke.trees
 
 import monke.nodes.Entry
 import monke.nodes.TwoThreeTreeNode
-import monke.trees.treeInterfaces.BTree
 
 /**
  * Implementation of a 2-3 Tree data structure.
@@ -15,13 +14,11 @@ import monke.trees.treeInterfaces.BTree
  * @param K the type of keys, must implement [Comparable]
  * @param V the type of values stored in the tree
  */
-public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
+public class TwoThreeTree<K : Comparable<K>, V> : BaseMultiwayArithmeticTree<K, V, TwoThreeTreeNode<K, V>, TwoThreeTree<K, V>>() {
     /**
      * Current root of the tree, or `null` if the tree is empty.
-     */
-    protected var root: TwoThreeTreeNode<K, V>? = null
-
-    /**
+     *
+     *
      * Number of key-value pairs currently stored in the tree.
      */
     var size = 0
@@ -33,7 +30,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
      * @param key the key to search for
      * @return the value associated with the key, or `null` if not found
      */
-    override fun search(key: K): V? = getRecursive(root, key)
+    override fun search(key: K): V? = getRecursive(rootNode, key)
 
     /**
      * Inserts a new key-value pair into the tree.
@@ -48,14 +45,14 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
     override fun insert(
         key: K,
         value: V,
-    ): V? {
-        if (root == null) {
-            root = TwoThreeTreeNode(entries = mutableListOf(Entry(key, value)))
+    ) {
+        if (rootNode == null) {
+            rootNode = TwoThreeTreeNode(entries = mutableListOf(Entry(key, value)))
             size = 1
-            return value
+            return
         }
 
-        var node = root
+        var node = rootNode
 
         while (!node!!.isLeaf) {
             node = chooseChild(node, key)
@@ -64,7 +61,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         val exsistingIndex = node.entries.indexOfFirst { it.key == key }
         if (exsistingIndex != -1) {
             node.entries[exsistingIndex].value = value
-            return value
+            return
         }
 
         insertEntryInNode(node, Entry(key, value))
@@ -75,7 +72,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
             splitNode(current)
             current = current.parent
         }
-        return value
+        return
     }
 
     /**
@@ -88,7 +85,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
      * @return the value that was removed, or `null` if the key was not found
      */
     override fun delete(key: K): V? {
-        val node = findNode(root, key) ?: return null
+        val node = findNode(rootNode, key) ?: return null
 
         if (node.isLeaf) {
             val oldValue = removeEntry(node, key)
@@ -98,23 +95,71 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         }
 
         val index = node.entries.indexOfFirst { it.key == key }
-        val leftChild = node.children[index]
-        var replacementNode = leftChild
+        var successorNode = node.children[index + 1]
 
-        while (!replacementNode.isLeaf) {
-            replacementNode = replacementNode.children.last()
+        while (!successorNode.isLeaf) {
+            successorNode = successorNode.children.first()
         }
 
-        val replacementEntry = replacementNode.entries.last()
+        val successorEntry = successorNode.entries.first()
+        val oldValue = node.entries[index].value
 
-        node.entries[index] = Entry(replacementEntry.key, replacementEntry.value)
+        node.entries[index] = Entry(successorEntry.key, successorEntry.value)
 
-        removeEntry(replacementNode, replacementEntry.key)
-        fixUnderFlow(replacementNode)
+        removeEntry(successorNode, successorEntry.key)
+        fixUnderFlow(successorNode)
+
         size--
-
-        return replacementEntry.value
+        return oldValue
     }
+
+    override fun createInstance(): TwoThreeTree<K, V> = TwoThreeTree()
+
+    override fun iterator(): Iterator<Pair<K, V>> =
+        object : Iterator<Pair<K, V>> {
+            private val stack = ArrayDeque<TwoThreeTreeNode<K, V>>()
+            private val indexStack = ArrayDeque<Int>()
+            private var currentNode = rootNode
+
+            init {
+                pushLeftmost(currentNode)
+            }
+
+            private fun pushLeftmost(node: TwoThreeTreeNode<K, V>?) {
+                var n = node
+                while (n != null) {
+                    stack.addLast(n)
+                    indexStack.addLast(0)
+                    n = if (n.children.isNotEmpty()) n.children[0] else null
+                }
+            }
+
+            override fun hasNext(): Boolean = stack.isNotEmpty()
+
+            override fun next(): Pair<K, V> {
+                if (!hasNext()) throw NoSuchElementException()
+
+                val node = stack.last()
+                var idx = indexStack.removeLast()
+
+                val result = node.entries[idx].key to node.entries[idx].value
+
+                idx++
+                if (idx < node.entries.size) {
+                    indexStack.addLast(idx)
+                    currentNode = if (node.children.isNotEmpty()) node.children[idx] else null
+                    pushLeftmost(currentNode)
+                } else {
+                    stack.removeLast()
+                    if (node.children.isNotEmpty() && node.children.size > idx) {
+                        currentNode = node.children[idx]
+                        pushLeftmost(currentNode)
+                    }
+                }
+
+                return result
+            }
+        }
 
     private fun getRecursive(
         node: TwoThreeTreeNode<K, V>?,
@@ -181,7 +226,7 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
             newRoot.children.add(rightNode)
             leftNode.parent = newRoot
             rightNode.parent = newRoot
-            root = newRoot
+            rootNode = newRoot
         } else {
             val parent = node.parent
             val index = parent!!.entries.indexOfFirst { it.key > middleEntry.key }
@@ -234,8 +279,8 @@ public class TwoThreeTree<K : Comparable<K>, V> : BTree<K, V> {
         val parent =
             node.parent ?: run {
                 if (node.entries.isEmpty() && node.children.isNotEmpty()) {
-                    root = node.children.first()
-                    root?.parent = null
+                    rootNode = node.children.first()
+                    rootNode?.parent = null
                 }
                 return
             }
