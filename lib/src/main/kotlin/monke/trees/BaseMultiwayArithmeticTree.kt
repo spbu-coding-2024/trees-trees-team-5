@@ -1,14 +1,14 @@
 package monke.trees
 
-import monke.trees.treeInterfaces.ArithmetikTree
+import monke.trees.treeInterfaces.ArithmeticTree
 
 abstract class BaseMultiwayArithmeticTree<
-        K : Comparable<K>,
-        V,
-        N,
-        T : BaseMultiwayArithmeticTree<K, V, N, T>
-        > : ArithmetikTree<K, V, T> {
-
+    K : Comparable<K>,
+    V,
+    N,
+    T : BaseMultiwayArithmeticTree<K, V, N, T>,
+> :
+    ArithmeticTree<K, V, T> {
     protected var rootNode: N? = null
 
     override operator fun plus(other: T): T {
@@ -33,9 +33,12 @@ abstract class BaseMultiwayArithmeticTree<
         }
     }
 
-    abstract override fun insert(key: K, value: V)
+    abstract override fun insert(
+        key: K,
+        value: V,
+    )
+
     abstract override fun delete(key: K): V?
 
-    // итератор для multi-way дерева должен быть реализован в наследнике
-    abstract override fun iterator(): Iterator<Pair<K,V>>
+    abstract override fun iterator(): Iterator<Pair<K, V>>
 }

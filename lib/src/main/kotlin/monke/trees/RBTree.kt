@@ -10,8 +10,7 @@ import java.util.Stack
  * @param V generic type for value storage
  */
 
-public class RBTree<K : Comparable<K>, V>
-    : BaseBinaryArithmeticTree<K, V, RBTNode<K, V>, RBTree<K, V>>() {
+public class RBTree<K : Comparable<K>, V> : BaseBinaryArithmeticTree<K, V, RBTNode<K, V>, RBTree<K, V>>() {
     /**
      * Insert `RBTNode<K,V>` in the tree by key and value
      * If key is exist it will throw an error `IllegalArgumentException`
@@ -101,7 +100,7 @@ public class RBTree<K : Comparable<K>, V>
                                     uncleNode?.color == RBTNode.Color.BLACK &&
                                     uncleNode.leftChild?.color == RBTNode.Color.BLACK &&
                                     uncleNode.rightChild?.color == RBTNode.Color.BLACK
-                                ) -> {
+                            ) -> {
                                 parentNode.color = RBTNode.Color.BLACK
                                 uncleNode.color = RBTNode.Color.RED
                             }
@@ -110,7 +109,7 @@ public class RBTree<K : Comparable<K>, V>
                                 parentNode?.color == RBTNode.Color.RED &&
                                     uncleNode?.color == RBTNode.Color.BLACK &&
                                     uncleNode.leftChild?.color == RBTNode.Color.RED
-                                ) -> {
+                            ) -> {
                                 uncleNode.leftChild?.color = RBTNode.Color.BLACK
                                 uncleNode.color = RBTNode.Color.RED
                                 parentNode.color = RBTNode.Color.BLACK
@@ -127,7 +126,7 @@ public class RBTree<K : Comparable<K>, V>
                                     uncleNode?.color == RBTNode.Color.RED &&
                                     uncleNode.rightChild?.leftChild?.color == RBTNode.Color.BLACK &&
                                     uncleNode.rightChild?.rightChild?.color == RBTNode.Color.BLACK
-                                ) -> {
+                            ) -> {
                                 uncleNode.rightChild?.color = RBTNode.Color.RED
                                 uncleNode.color = RBTNode.Color.BLACK
                                 if (parentNode.leftChild == uncleNode) {
@@ -142,7 +141,7 @@ public class RBTree<K : Comparable<K>, V>
                                 parentNode?.color == RBTNode.Color.BLACK &&
                                     uncleNode?.color == RBTNode.Color.RED &&
                                     uncleNode.rightChild?.leftChild?.color == RBTNode.Color.RED
-                                ) -> {
+                            ) -> {
                                 uncleNode.rightChild?.leftChild?.color = RBTNode.Color.BLACK
                                 if (parentNode.leftChild == uncleNode) {
                                     leftRotate(uncleNode, uncleNode.rightChild!!)
@@ -160,7 +159,7 @@ public class RBTree<K : Comparable<K>, V>
                                     uncleNode?.color == RBTNode.Color.BLACK &&
                                     uncleNode.rightChild?.color == RBTNode.Color.BLACK &&
                                     uncleNode.leftChild?.color == RBTNode.Color.BLACK
-                                ) -> {
+                            ) -> {
                                 uncleNode.color = RBTNode.Color.RED
                                 balancingBeforeDelete(parentNode)
                                 return nodesValue
@@ -229,7 +228,7 @@ public class RBTree<K : Comparable<K>, V>
                     uncleNode?.color == RBTNode.Color.BLACK &&
                     uncleNode.leftChild?.color == RBTNode.Color.BLACK &&
                     uncleNode.rightChild?.color == RBTNode.Color.BLACK
-                ) -> {
+            ) -> {
                 parentNode.color = RBTNode.Color.BLACK
                 uncleNode.color = RBTNode.Color.RED
             }
@@ -238,7 +237,7 @@ public class RBTree<K : Comparable<K>, V>
                 parentNode?.color == RBTNode.Color.RED &&
                     uncleNode?.color == RBTNode.Color.BLACK &&
                     uncleNode.leftChild?.color == RBTNode.Color.RED
-                ) -> {
+            ) -> {
                 uncleNode.leftChild?.color = RBTNode.Color.BLACK
                 uncleNode.color = RBTNode.Color.RED
                 parentNode.color = RBTNode.Color.BLACK
@@ -254,7 +253,7 @@ public class RBTree<K : Comparable<K>, V>
                     uncleNode?.color == RBTNode.Color.RED &&
                     uncleNode.rightChild?.leftChild?.color == RBTNode.Color.BLACK &&
                     uncleNode.rightChild?.rightChild?.color == RBTNode.Color.BLACK
-                ) -> {
+            ) -> {
                 uncleNode.rightChild?.color = RBTNode.Color.RED
                 uncleNode.color = RBTNode.Color.BLACK
                 if (parentNode.leftChild == uncleNode) {
@@ -268,7 +267,7 @@ public class RBTree<K : Comparable<K>, V>
                 parentNode?.color == RBTNode.Color.BLACK &&
                     uncleNode?.color == RBTNode.Color.RED &&
                     uncleNode.rightChild?.leftChild?.color == RBTNode.Color.RED
-                ) -> {
+            ) -> {
                 uncleNode.rightChild?.leftChild?.color = RBTNode.Color.BLACK
                 if (parentNode.leftChild == uncleNode) {
                     leftRotate(uncleNode, uncleNode.rightChild!!)
@@ -284,7 +283,7 @@ public class RBTree<K : Comparable<K>, V>
                     uncleNode?.color == RBTNode.Color.BLACK &&
                     uncleNode.rightChild?.color == RBTNode.Color.BLACK &&
                     uncleNode.leftChild?.color == RBTNode.Color.BLACK
-                ) -> {
+            ) -> {
                 uncleNode.color = RBTNode.Color.RED
                 balancingBeforeDelete(parentNode)
             }

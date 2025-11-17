@@ -14,12 +14,11 @@ import monke.nodes.TwoThreeTreeNode
  * @param K the type of keys, must implement [Comparable]
  * @param V the type of values stored in the tree
  */
-public class TwoThreeTree<K : Comparable<K>, V> :
-    BaseMultiwayArithmeticTree<K, V, TwoThreeTreeNode<K, V>, TwoThreeTree<K, V>>() {
+public class TwoThreeTree<K : Comparable<K>, V> : BaseMultiwayArithmeticTree<K, V, TwoThreeTreeNode<K, V>, TwoThreeTree<K, V>>() {
     /**
      * Current root of the tree, or `null` if the tree is empty.
-     */
-    /**
+     *
+     *
      * Number of key-value pairs currently stored in the tree.
      */
     var size = 0
@@ -114,50 +113,51 @@ public class TwoThreeTree<K : Comparable<K>, V> :
         return replacementEntry.value
     }
 
-    override fun iterator(): Iterator<Pair<K, V>> = object : Iterator<Pair<K, V>> {
-        private val stack = ArrayDeque<TwoThreeTreeNode<K, V>>()
-        private val indexStack = ArrayDeque<Int>()
-        private var currentNode = rootNode
+    override fun iterator(): Iterator<Pair<K, V>> =
+        object : Iterator<Pair<K, V>> {
+            private val stack = ArrayDeque<TwoThreeTreeNode<K, V>>()
+            private val indexStack = ArrayDeque<Int>()
+            private var currentNode = rootNode
 
-        init {
-            pushLeftmost(currentNode)
-        }
-
-        private fun pushLeftmost(node: TwoThreeTreeNode<K, V>?) {
-            var n = node
-            while (n != null) {
-                stack.addLast(n)
-                indexStack.addLast(0)
-                n = if (n.children.isNotEmpty()) n.children[0] else null
-            }
-        }
-
-        override fun hasNext(): Boolean = stack.isNotEmpty()
-
-        override fun next(): Pair<K, V> {
-            if (!hasNext()) throw NoSuchElementException()
-
-            val node = stack.last()
-            var idx = indexStack.removeLast()
-
-            val result = node.entries[idx].key to node.entries[idx].value
-
-            idx++
-            if (idx < node.entries.size) {
-                indexStack.addLast(idx)
-                currentNode = if (node.children.isNotEmpty()) node.children[idx] else null
+            init {
                 pushLeftmost(currentNode)
-            } else {
-                stack.removeLast()
-                if (node.children.isNotEmpty() && node.children.size > idx) {
-                    currentNode = node.children[idx]
-                    pushLeftmost(currentNode)
+            }
+
+            private fun pushLeftmost(node: TwoThreeTreeNode<K, V>?) {
+                var n = node
+                while (n != null) {
+                    stack.addLast(n)
+                    indexStack.addLast(0)
+                    n = if (n.children.isNotEmpty()) n.children[0] else null
                 }
             }
 
-            return result
+            override fun hasNext(): Boolean = stack.isNotEmpty()
+
+            override fun next(): Pair<K, V> {
+                if (!hasNext()) throw NoSuchElementException()
+
+                val node = stack.last()
+                var idx = indexStack.removeLast()
+
+                val result = node.entries[idx].key to node.entries[idx].value
+
+                idx++
+                if (idx < node.entries.size) {
+                    indexStack.addLast(idx)
+                    currentNode = if (node.children.isNotEmpty()) node.children[idx] else null
+                    pushLeftmost(currentNode)
+                } else {
+                    stack.removeLast()
+                    if (node.children.isNotEmpty() && node.children.size > idx) {
+                        currentNode = node.children[idx]
+                        pushLeftmost(currentNode)
+                    }
+                }
+
+                return result
+            }
         }
-    }
 
     private fun getRecursive(
         node: TwoThreeTreeNode<K, V>?,
